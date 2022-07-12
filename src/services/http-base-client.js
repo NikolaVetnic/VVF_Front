@@ -1,0 +1,33 @@
+import axios from "axios";
+import store from "../app/store";
+
+import { API_BASE_URL } from "../constants/api";
+
+class HttpBaseClient {
+    constructor() {
+        this.client = axios.create({
+            baseURL: API_BASE_URL,
+        });
+        this.setInterceptor();
+    }
+
+    setInterceptor = () => {
+        this.client.interceptors.request.use((config) => {
+            if (store.getState().user.user === undefined) return config;
+
+            const token = store.getState().user.user.token;
+
+            if (!!token) {
+                config.headers.Authorization = token;
+            }
+
+            return config;
+        });
+    };
+
+    getApiClient = () => {
+        return this.client;
+    };
+}
+
+export default HttpBaseClient;
