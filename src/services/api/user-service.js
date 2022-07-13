@@ -2,6 +2,7 @@ import HttpBaseClient from "../http-base-client";
 
 const ENDPOINTS = {
     LOGIN: "api/auth/login/",
+    REGISTER: "api/auth/register",
     USER_DATA: "/api/auth/me",
 };
 
@@ -31,6 +32,20 @@ class UserService extends HttpBaseClient {
         };
 
         return responseData;
+    };
+
+    register = async (registrationData) => {
+        const { name, email, password } = registrationData;
+
+        const newUser = this.getApiClient()
+            .post(ENDPOINTS.REGISTER, {
+                name,
+                email,
+                password,
+            })
+            .then((response) => response.data);
+
+        return newUser;
     };
 
     getUserData = () => {

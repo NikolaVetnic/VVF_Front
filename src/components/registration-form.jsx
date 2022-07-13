@@ -1,23 +1,37 @@
 import { Form, Formik } from "formik";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { save } from "../features/user/user-slice";
-import userService from "../services/api/user-service";
 import CustomFormTextField from "./custom-form-text-field";
-import { DEFAULT_LOGIN_EMAIL, DEFAULT_LOGIN_PASSWORD } from "../constants";
+import {
+    DEFAULT_REGISTRATION_NAME,
+    DEFAULT_REGISTRATION_EMAIL,
+    DEFAULT_REGISTRATION_PASSWORD,
+} from "../constants";
+import userService from "../services/api/user-service";
+import { useState } from "react";
+import CustomModal from "./custom-modal";
 
 const schema = yup.object({
+    name: yup
+        .string()
+        .min(3, "Name cannot be shorter than 3 characters")
+        .max(50, "Name cannot be longer than 50 characters")
+        .required("Required"),
     email: yup.string().email("Invalid email address").required("Required"),
     password: yup.string().required("Required"),
 });
 
-export default function LoginForm() {
-    const dispatch = useDispatch();
+export default function RegistrationForm() {
+    const [modalShow, setModalShow] = useState(false);
+    const navigate = useNavigate();
 
-    const handleLogin = (values) => {
-        userService.login(values).then((response) => dispatch(save(response)));
+    const handleRegistration = (values) => {
+        userService.register(values).then((response) => {
+            console.log(response);
+            setModalShow(true);
+        });
     };
 
     return (
@@ -25,10 +39,11 @@ export default function LoginForm() {
             <Col>
                 <Formik
                     validationSchema={schema}
-                    onSubmit={(values) => handleLogin(values)}
+                    onSubmit={(values) => handleRegistration(values)}
                     initialValues={{
-                        email: DEFAULT_LOGIN_EMAIL,
-                        password: DEFAULT_LOGIN_PASSWORD,
+                        name: DEFAULT_REGISTRATION_NAME,
+                        email: DEFAULT_REGISTRATION_EMAIL,
+                        password: DEFAULT_REGISTRATION_PASSWORD,
                     }}
                 >
                     {({
@@ -42,10 +57,17 @@ export default function LoginForm() {
                         <Form noValidate onSubmit={handleSubmit}>
                             <Container style={{ width: "50%" }}>
                                 <Row style={{ marginTop: "2rem" }}>
-                                    <h2>Login</h2>
+                                    <h2>Register</h2>
                                 </Row>
 
                                 <Row style={{ marginTop: "2rem" }}>
+                                    <CustomFormTextField
+                                        label="Name"
+                                        name="name"
+                                    />
+                                </Row>
+
+                                <Row style={{ marginTop: "1rem" }}>
                                     <CustomFormTextField
                                         label="Email"
                                         name="email"
@@ -75,6 +97,21 @@ export default function LoginForm() {
                                         />
                                     </Col>
                                 </Row>
+
+                                {/* ovde me interesuje kako mogu dinamicki da prosledim title i message npr. */}
+                                <CustomModal
+                                    data={{
+                                        show: modalShow,
+                                        title: "Registration Success",
+                                        message:
+                                            "You will now be redirected to Login form...",
+                                        buttonCaption: "Close",
+                                        onHide: function () {
+                                            setModalShow(false);
+                                            navigate("/login");
+                                        },
+                                    }}
+                                />
                             </Container>
                         </Form>
                     )}
