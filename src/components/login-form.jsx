@@ -3,11 +3,10 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import { save } from "../features/user/user-slice";
 import userService from "../services/api/user-service";
-import LoginFormTextField from "./login-form-text-field";
+import CustomFormTextField from "./custom-form-text-field";
+import { DEFAULT_EMAIL, DEFAULT_PASSWORD } from "../constants";
 
 const schema = yup.object({
     email: yup.string().email("Invalid email address").required("Required"),
@@ -17,8 +16,9 @@ const schema = yup.object({
 export default function LoginForm() {
     const dispatch = useDispatch();
 
-    const handleLogin = (values) =>
+    const handleLogin = (values) => {
         userService.login(values).then((response) => dispatch(save(response)));
+    };
 
     return (
         <Row>
@@ -27,8 +27,8 @@ export default function LoginForm() {
                     validationSchema={schema}
                     onSubmit={(values) => handleLogin(values)}
                     initialValues={{
-                        email: "lucas.douglas@example.org",
-                        password: "adMIN1234!",
+                        email: DEFAULT_EMAIL,
+                        password: DEFAULT_PASSWORD,
                     }}
                 >
                     {({
@@ -46,14 +46,14 @@ export default function LoginForm() {
                                 </Row>
 
                                 <Row style={{ marginTop: "2rem" }}>
-                                    <LoginFormTextField
+                                    <CustomFormTextField
                                         label="Email"
                                         name="email"
                                     />
                                 </Row>
 
                                 <Row style={{ marginTop: "1rem" }}>
-                                    <LoginFormTextField
+                                    <CustomFormTextField
                                         label="Password"
                                         name="password"
                                     />

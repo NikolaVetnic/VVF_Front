@@ -1,7 +1,7 @@
 import { Col } from "react-bootstrap";
 import FormTextField from "./form-field";
 
-const LoginFormTextField = (props) => {
+const CustomFormTextField = (props) => {
     return (
         <FormTextField
             as={Col}
@@ -13,4 +13,4 @@ const LoginFormTextField = (props) => {
     );
 };
 
-export default LoginFormTextField;
+export default CustomFormTextField;

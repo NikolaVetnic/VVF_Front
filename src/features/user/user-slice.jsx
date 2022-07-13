@@ -1,15 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+    current: {
+        token: localStorage.getItem("token"),
+        data: {
+            id: localStorage.getItem("id"),
+            name: localStorage.getItem("name"),
+            email: localStorage.getItem("email"),
+        },
+    },
+};
 
 const userSlice = createSlice({
     name: "user",
-
-    initialState: initialState,
-
+    initialState,
     reducers: {
         save: (state, action) => {
-            state.data = action.payload;
+            state.current = action.payload;
         },
     },
 });

@@ -13,12 +13,10 @@ class HttpBaseClient {
 
     setInterceptor = () => {
         this.client.interceptors.request.use((config) => {
-            if (store.getState().user.user === undefined) return config;
-
-            const token = store.getState().user.user.token;
+            const token = localStorage.getItem("token");
 
             if (!!token) {
-                config.headers.Authorization = token;
+                config.headers.Authorization = `Bearer ${token}`;
             }
 
             return config;

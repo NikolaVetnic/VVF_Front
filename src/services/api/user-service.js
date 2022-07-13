@@ -13,27 +13,25 @@ class UserService extends HttpBaseClient {
         );
 
         const token = `Bearer ${data.access_token}`;
-        const user = await this.getUserDataByPassingTokenDirectly(token);
+        localStorage.setItem("token", token);
+
+        const currentUser = await this.getUserData();
+        const { id, name, email } = currentUser.data;
+        localStorage.setItem("id", id);
+        localStorage.setItem("name", name);
+        localStorage.setItem("email", email);
 
         const responseData = {
             token: token,
-            me: user,
+            data: {
+                id,
+                name,
+                email,
+            },
         };
 
         return responseData;
     };
-
-    // for getting the user before the token is stored in the state
-    getUserDataByPassingTokenDirectly = (token) =>
-        this.getApiClient()
-            .get(ENDPOINTS.USER_DATA, {
-                headers: {
-                    Authorization: `${token}`,
-                },
-            })
-            .then((response) => {
-                return response.data;
-            });
 
     getUserData = () => {
         return this.getApiClient().get(ENDPOINTS.USER_DATA);
