@@ -15,13 +15,15 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        save: (state, action) => {
+        login: (state, action) => {
             state.current = action.payload;
+        },
+        logout: (state) => {
+            state.current = initialState;
         },
     },
 });
 
-const { actions, reducer } = userSlice;
-
-export const { save } = actions;
-export default reducer;
+export const { login, logout } = userSlice.actions;
+export const selectUser = (state) => state.user.current;
+export default userSlice.reducer;

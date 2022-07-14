@@ -5,7 +5,7 @@ import { isExpired } from "react-jwt";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { save } from "../store/user/slice";
+import { logout } from "../store/user/slice";
 import userService from "../services/api/user-service";
 
 function NavbarComponent() {
@@ -14,7 +14,7 @@ function NavbarComponent() {
 
     const handleLogout = () => {
         userService.logout().then(() => {
-            dispatch(save({}));
+            dispatch(logout());
             localStorage.clear();
         });
     };

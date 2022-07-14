@@ -3,7 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 
-import { save } from "../store/user/slice";
+import { login } from "../store/user/slice";
 import userService from "../services/api/user-service";
 import CustomFormTextField from "./custom-form-text-field";
 import {
@@ -30,7 +30,7 @@ export default function LoginForm() {
         userService
             .login(values)
             .then((response) => {
-                dispatch(save(response));
+                dispatch(login(response));
                 navigate("/profile");
             })
             .catch((error) => {
