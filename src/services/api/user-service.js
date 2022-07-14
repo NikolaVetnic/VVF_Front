@@ -2,6 +2,8 @@ import HttpBaseClient from "../http-base-client";
 
 const ENDPOINTS = {
     LOGIN: "api/auth/login/",
+    LOGOUT: "api/auth/logout",
+    REGISTER: "api/auth/register",
     USER_DATA: "/api/auth/me",
 };
 
@@ -12,7 +14,7 @@ class UserService extends HttpBaseClient {
             credentials
         );
 
-        const token = `Bearer ${data.access_token}`;
+        const token = data.access_token;
         localStorage.setItem("token", token);
 
         const currentUser = await this.getUserData();
@@ -31,6 +33,24 @@ class UserService extends HttpBaseClient {
         };
 
         return responseData;
+    };
+
+    register = async (registrationData) => {
+        const { name, email, password } = registrationData;
+
+        const newUser = this.getApiClient()
+            .post(ENDPOINTS.REGISTER, {
+                name,
+                email,
+                password,
+            })
+            .then((response) => response.data);
+
+        return newUser;
+    };
+
+    logout = () => {
+        return this.getApiClient().post(ENDPOINTS.LOGOUT);
     };
 
     getUserData = () => {

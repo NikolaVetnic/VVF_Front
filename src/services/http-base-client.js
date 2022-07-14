@@ -1,5 +1,4 @@
 import axios from "axios";
-import store from "../app/store";
 
 import { API_BASE_URL } from "../constants/api";
 
