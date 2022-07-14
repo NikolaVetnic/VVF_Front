@@ -3,7 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 
-import { save } from "../features/user/user-slice";
+import { save } from "../store/user/slice";
 import userService from "../services/api/user-service";
 import CustomFormTextField from "./custom-form-text-field";
 import {

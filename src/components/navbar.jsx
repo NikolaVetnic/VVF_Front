@@ -5,7 +5,7 @@ import { isExpired } from "react-jwt";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { save } from "../features/user/user-slice";
+import { save } from "../store/user/slice";
 import userService from "../services/api/user-service";
 
 function NavbarComponent() {
