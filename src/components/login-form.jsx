@@ -26,25 +26,29 @@ export default function LoginForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // const handleLogin = (values) => {
+    //     userService
+    //         .login(values)
+    //         .then((response) => {
+    //             dispatch(login(response));
+    //             navigate("/profile");
+    //         })
+    //         .catch((error) => {
+    //             const message = error.response.data.error;
+    //             setModalData({
+    //                 show: true,
+    //                 title: "Error",
+    //                 message: message,
+    //                 buttonCaption: "Close",
+    //                 onHide: () => {
+    //                     setModalData(INITIAL_MODAL_DATA);
+    //                 },
+    //             });
+    //         });
+    // };
+
     const handleLogin = (values) => {
-        userService
-            .login(values)
-            .then((response) => {
-                dispatch(login(response));
-                navigate("/profile");
-            })
-            .catch((error) => {
-                const message = error.response.data.error;
-                setModalData({
-                    show: true,
-                    title: "Error",
-                    message: message,
-                    buttonCaption: "Close",
-                    onHide: () => {
-                        setModalData(INITIAL_MODAL_DATA);
-                    },
-                });
-            });
+        dispatch({ type: "LOGIN", values });
     };
 
     return (

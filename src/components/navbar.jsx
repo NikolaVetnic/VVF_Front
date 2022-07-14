@@ -12,11 +12,15 @@ function NavbarComponent() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user.current);
 
+    // const handleLogout = () => {
+    //     userService.logout().then(() => {
+    //         dispatch(logout());
+    //         localStorage.clear();
+    //     });
+    // };
+
     const handleLogout = () => {
-        userService.logout().then(() => {
-            dispatch(logout());
-            localStorage.clear();
-        });
+        dispatch({ type: "LOGOUT" });
     };
 
     return (

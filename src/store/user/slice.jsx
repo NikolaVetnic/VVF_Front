@@ -19,7 +19,11 @@ const userSlice = createSlice({
             state.current = action.payload;
         },
         logout: (state) => {
-            state.current = initialState;
+            localStorage.removeItem("token");
+            localStorage.removeItem("id");
+            localStorage.removeItem("name");
+            localStorage.removeItem("email");
+            state.current = initialState.current;
         },
     },
 });
