@@ -1,5 +1,4 @@
 import axios from "axios";
-import store from "../app/store";
 
 import { API_BASE_URL } from "../constants/api";
 
@@ -16,7 +15,7 @@ class HttpBaseClient {
             const token = localStorage.getItem("token");
 
             if (!!token) {
-                config.headers.Authorization = `${token}`;
+                config.headers.Authorization = `Bearer ${token}`;
             }
 
             return config;

@@ -14,7 +14,7 @@ class UserService extends HttpBaseClient {
             credentials
         );
 
-        const token = `Bearer ${data.access_token}`;
+        const token = data.access_token;
         localStorage.setItem("token", token);
 
         const currentUser = await this.getUserData();
