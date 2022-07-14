@@ -6,7 +6,14 @@ import { useDispatch } from "react-redux";
 import { save } from "../features/user/user-slice";
 import userService from "../services/api/user-service";
 import CustomFormTextField from "./custom-form-text-field";
-import { DEFAULT_LOGIN_EMAIL, DEFAULT_LOGIN_PASSWORD } from "../constants";
+import {
+    DEFAULT_LOGIN_EMAIL,
+    DEFAULT_LOGIN_PASSWORD,
+    INITIAL_MODAL_DATA,
+} from "../constants";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import CustomModal from "./custom-modal";
 
 const schema = yup.object({
     email: yup.string().email("Invalid email address").required("Required"),
@@ -14,10 +21,30 @@ const schema = yup.object({
 });
 
 export default function LoginForm() {
+    const [modalData, setModalData] = useState(INITIAL_MODAL_DATA);
+
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogin = (values) => {
-        userService.login(values).then((response) => dispatch(save(response)));
+        userService
+            .login(values)
+            .then((response) => {
+                dispatch(save(response));
+                navigate("/profile");
+            })
+            .catch((error) => {
+                const message = error.response.data.error;
+                setModalData({
+                    show: true,
+                    title: "Error",
+                    message: message,
+                    buttonCaption: "Close",
+                    onHide: () => {
+                        setModalData(INITIAL_MODAL_DATA);
+                    },
+                });
+            });
     };
 
     return (
@@ -49,6 +76,7 @@ export default function LoginForm() {
                                     <CustomFormTextField
                                         label="Email"
                                         name="email"
+                                        type="email"
                                     />
                                 </Row>
 
@@ -56,6 +84,7 @@ export default function LoginForm() {
                                     <CustomFormTextField
                                         label="Password"
                                         name="password"
+                                        type="password"
                                     />
                                 </Row>
 
@@ -67,7 +96,7 @@ export default function LoginForm() {
                                             as="input"
                                             size="lg"
                                             type="submit"
-                                            value="Submit"
+                                            value="Login"
                                             style={{
                                                 width: "10rem",
                                                 margin: "2rem",
@@ -75,6 +104,8 @@ export default function LoginForm() {
                                         />
                                     </Col>
                                 </Row>
+
+                                <CustomModal data={modalData} />
                             </Container>
                         </Form>
                     )}

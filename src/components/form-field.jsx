@@ -12,9 +12,8 @@ const FormTextField = ({
     inputGroupPrepend,
 }) => {
     return (
-        <Field
-            name={name}
-            render={({ field, form }) => {
+        <Field name={name}>
+            {({ field, form }) => {
                 const isValid = !form.errors[field.name];
                 const isInvalid = form.touched[field.name] && !isValid;
                 return (
@@ -37,7 +36,7 @@ const FormTextField = ({
                     </Form.Group>
                 );
             }}
-        />
+        </Field>
     );
 };
 

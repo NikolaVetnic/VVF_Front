@@ -8,6 +8,7 @@ import {
     DEFAULT_REGISTRATION_NAME,
     DEFAULT_REGISTRATION_EMAIL,
     DEFAULT_REGISTRATION_PASSWORD,
+    INITIAL_MODAL_DATA,
 } from "../constants";
 import userService from "../services/api/user-service";
 import { useState } from "react";
@@ -24,14 +25,38 @@ const schema = yup.object({
 });
 
 export default function RegistrationForm() {
-    const [modalShow, setModalShow] = useState(false);
+    const [modalData, setModalData] = useState(INITIAL_MODAL_DATA);
+
     const navigate = useNavigate();
 
     const handleRegistration = (values) => {
-        userService.register(values).then((response) => {
-            console.log(response);
-            setModalShow(true);
-        });
+        userService
+            .register(values)
+            .then((response) => {
+                setModalData({
+                    show: true,
+                    title: "User registered",
+                    message:
+                        "You will now be redirected to the Login screen...",
+                    buttonCaption: "Close",
+                    onHide: () => {
+                        setModalData(INITIAL_MODAL_DATA);
+                        navigate("/login");
+                    },
+                });
+            })
+            .catch((error) => {
+                const message = error.response.data.error;
+                setModalData({
+                    show: true,
+                    title: "Error",
+                    message: message,
+                    buttonCaption: "Close",
+                    onHide: () => {
+                        setModalData(INITIAL_MODAL_DATA);
+                    },
+                });
+            });
     };
 
     return (
@@ -64,6 +89,7 @@ export default function RegistrationForm() {
                                     <CustomFormTextField
                                         label="Name"
                                         name="name"
+                                        type="text"
                                     />
                                 </Row>
 
@@ -71,6 +97,7 @@ export default function RegistrationForm() {
                                     <CustomFormTextField
                                         label="Email"
                                         name="email"
+                                        type="email"
                                     />
                                 </Row>
 
@@ -78,6 +105,7 @@ export default function RegistrationForm() {
                                     <CustomFormTextField
                                         label="Password"
                                         name="password"
+                                        type="password"
                                     />
                                 </Row>
 
@@ -89,7 +117,7 @@ export default function RegistrationForm() {
                                             as="input"
                                             size="lg"
                                             type="submit"
-                                            value="Submit"
+                                            value="Register"
                                             style={{
                                                 width: "10rem",
                                                 margin: "2rem",
@@ -98,20 +126,7 @@ export default function RegistrationForm() {
                                     </Col>
                                 </Row>
 
-                                {/* ovde me interesuje kako mogu dinamicki da prosledim title i message npr. */}
-                                <CustomModal
-                                    data={{
-                                        show: modalShow,
-                                        title: "Registration Success",
-                                        message:
-                                            "You will now be redirected to Login form...",
-                                        buttonCaption: "Close",
-                                        onHide: function () {
-                                            setModalShow(false);
-                                            navigate("/login");
-                                        },
-                                    }}
-                                />
+                                <CustomModal data={modalData} />
                             </Container>
                         </Form>
                     )}

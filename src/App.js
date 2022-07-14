@@ -4,7 +4,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import LoginPage from "./pages/login-page";
-import WelcomePage from "./pages/welcome-page";
+import ProfilePage from "./pages/profile-page";
 import Forbidden from "./pages/forbidden";
 import ProtectedRoute from "./components/protected-route";
 import NavbarComponent from "./components/navbar";
@@ -20,10 +20,10 @@ function App() {
                     <Route exact path="/register" element={<RegisterPage />} />
                     <Route
                         exact
-                        path="welcome"
+                        path="profile"
                         element={
                             <ProtectedRoute>
-                                <WelcomePage />
+                                <ProfilePage />
                             </ProtectedRoute>
                         }
                     />

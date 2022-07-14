@@ -2,6 +2,7 @@ import HttpBaseClient from "../http-base-client";
 
 const ENDPOINTS = {
     LOGIN: "api/auth/login/",
+    LOGOUT: "api/auth/logout",
     REGISTER: "api/auth/register",
     USER_DATA: "/api/auth/me",
 };
@@ -46,6 +47,10 @@ class UserService extends HttpBaseClient {
             .then((response) => response.data);
 
         return newUser;
+    };
+
+    logout = () => {
+        return this.getApiClient().post(ENDPOINTS.LOGOUT);
     };
 
     getUserData = () => {

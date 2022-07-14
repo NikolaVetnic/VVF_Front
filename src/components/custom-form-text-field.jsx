@@ -7,7 +7,7 @@ const CustomFormTextField = (props) => {
             as={Col}
             sm="4"
             label={props.label}
-            type="text"
+            type={props.type}
             name={props.name}
         />
     );

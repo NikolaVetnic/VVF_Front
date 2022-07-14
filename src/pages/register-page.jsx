@@ -5,7 +5,6 @@ const RegisterPage = () => {
     return (
         <div>
             <RegisterForm />
-            <Link to="/login">Sign In</Link>
         </div>
     );
 };

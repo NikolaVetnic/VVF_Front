@@ -1,7 +1,8 @@
 import { Button, Modal } from "react-bootstrap";
 
-export default function CustomModal(props) {
-    const { title, message, buttonCaption, onHide, ...rest } = props.data;
+export default function CustomModal({ data }) {
+    const { title, message, buttonCaption, onHide, ...rest } = data;
+
     return (
         <>
             <Modal
