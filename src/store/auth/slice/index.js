@@ -1,20 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { INITIAL_USER_DATA } from "../../../constants";
 import * as updateStateFunctions from "./update-state-functions";
-
-const initialState = {
-    current: {
-        token: localStorage.getItem("token"),
-        data: {
-            id: localStorage.getItem("id"),
-            name: localStorage.getItem("name"),
-            email: localStorage.getItem("email"),
-        },
-    },
-};
 
 const authSlice = createSlice({
     name: "auth",
-    initialState,
+    initialState: INITIAL_USER_DATA,
     reducers: {
         putAuthenticatedUser: updateStateFunctions.putAuthenticatedUser,
     },

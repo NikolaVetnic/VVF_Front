@@ -1,21 +1,14 @@
 import { Form, Formik } from "formik";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { putAuthenticatedUser } from "../store/auth/slice";
-import authService from "../services/api/auth-service";
 import CustomFormTextField from "./custom-form-text-field";
-import {
-    DEFAULT_LOGIN_EMAIL,
-    DEFAULT_LOGIN_PASSWORD,
-    INITIAL_MODAL_DATA,
-} from "../constants";
+import { DEFAULT_LOGIN_EMAIL, DEFAULT_LOGIN_PASSWORD } from "../constants";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import CustomModal from "./custom-modal";
-import * as authConstants from "../store/auth/constants";
-import { testAuth } from "../store/auth/actions";
+import { login } from "../store/auth/actions";
+import { modalSelector } from "../store/modal/selectors";
 
 const schema = yup.object({
     email: yup.string().email("Invalid email address").required("Required"),
@@ -23,31 +16,21 @@ const schema = yup.object({
 });
 
 export default function LoginForm() {
-    const [modalData, setModalData] = useState(INITIAL_MODAL_DATA);
+    const loginModal = useSelector(modalSelector);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogin = (values) => {
-        dispatch(testAuth(values.email));
-        authService
-            .login(values)
-            .then((response) => {
-                dispatch(putAuthenticatedUser(response));
-                navigate("/profile");
+        const { email, password } = values;
+
+        dispatch(
+            login({
+                email,
+                password,
+                callback: () => navigate("/profile"),
             })
-            .catch((error) => {
-                const message = error.response.data.error;
-                setModalData({
-                    show: true,
-                    title: "Error",
-                    message: message,
-                    buttonCaption: "Close",
-                    onHide: () => {
-                        setModalData(INITIAL_MODAL_DATA);
-                    },
-                });
-            });
+        );
     };
 
     return (
@@ -55,7 +38,12 @@ export default function LoginForm() {
             <Col>
                 <Formik
                     validationSchema={schema}
-                    onSubmit={(values) => handleLogin(values)}
+                    onSubmit={(values, actions) => {
+                        handleLogin(values);
+                        setTimeout(() => {
+                            actions.setSubmitting(false);
+                        }, 100);
+                    }}
                     initialValues={{
                         email: DEFAULT_LOGIN_EMAIL,
                         password: DEFAULT_LOGIN_PASSWORD,
@@ -108,7 +96,7 @@ export default function LoginForm() {
                                     </Col>
                                 </Row>
 
-                                <CustomModal data={modalData} />
+                                <CustomModal data={loginModal} />
                             </Container>
                         </Form>
                     )}

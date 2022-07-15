@@ -1,8 +1,9 @@
 import { all, spawn, call } from "redux-saga/effects";
 import authSagas from "./auth/saga";
+import modalSagas from "./modal/saga";
 
 export default function* rootSaga() {
-    const sagas = [...authSagas];
+    const sagas = [...authSagas, ...modalSagas];
 
     yield all(
         sagas.map((saga) =>

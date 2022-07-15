@@ -9,8 +9,13 @@ import Forbidden from "./pages/forbidden";
 import ProtectedRoute from "./components/protected-route";
 import NavbarComponent from "./components/navbar";
 import RegisterPage from "./pages/register-page";
+import CustomModal from "./components/custom-modal";
+import { useSelector } from "react-redux";
+import { modalSelector } from "./store/modal/selectors";
 
 function App() {
+    const loginModal = useSelector(modalSelector);
+
     return (
         <div className="App">
             <BrowserRouter>
@@ -29,6 +34,7 @@ function App() {
                     />
                     <Route exact path="/forbidden" element={<Forbidden />} />
                 </Routes>
+                <CustomModal data={loginModal} />
             </BrowserRouter>
         </div>
     );
