@@ -7,7 +7,7 @@ const ENDPOINTS = {
     USER_DATA: "/api/auth/me",
 };
 
-class UserService extends HttpBaseClient {
+class AuthService extends HttpBaseClient {
     login = async (credentials) => {
         const { data } = await this.getApiClient().post(
             ENDPOINTS.LOGIN,
@@ -17,8 +17,8 @@ class UserService extends HttpBaseClient {
         const token = data.access_token;
         localStorage.setItem("token", token);
 
-        const currentUser = await this.getUserData();
-        const { id, name, email } = currentUser.data;
+        const authenticatedUser = await this.getUserData();
+        const { id, name, email } = authenticatedUser.data;
         localStorage.setItem("id", id);
         localStorage.setItem("name", name);
         localStorage.setItem("email", email);
@@ -58,4 +58,4 @@ class UserService extends HttpBaseClient {
     };
 }
 
-export default new UserService();
+export default new AuthService();

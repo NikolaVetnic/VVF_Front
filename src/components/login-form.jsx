@@ -3,8 +3,8 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 
-import { save } from "../features/user/user-slice";
-import userService from "../services/api/user-service";
+import { putAuthenticatedUser } from "../store/auth/slice";
+import authService from "../services/api/auth-service";
 import CustomFormTextField from "./custom-form-text-field";
 import {
     DEFAULT_LOGIN_EMAIL,
@@ -27,10 +27,10 @@ export default function LoginForm() {
     const navigate = useNavigate();
 
     const handleLogin = (values) => {
-        userService
+        authService
             .login(values)
             .then((response) => {
-                dispatch(save(response));
+                dispatch(putAuthenticatedUser(response));
                 navigate("/profile");
             })
             .catch((error) => {

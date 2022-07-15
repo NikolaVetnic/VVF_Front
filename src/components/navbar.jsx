@@ -5,16 +5,16 @@ import { isExpired } from "react-jwt";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { save } from "../features/user/user-slice";
-import userService from "../services/api/user-service";
+import { putAuthenticatedUser } from "../store/auth/slice";
+import authService from "../services/api/auth-service";
 
 function NavbarComponent() {
     const dispatch = useDispatch();
-    const currentUser = useSelector((state) => state.user.current);
+    const authenticatedUser = useSelector((state) => state.auth.current);
 
     const handleLogout = () => {
-        userService.logout().then(() => {
-            dispatch(save({}));
+        authService.logout().then(() => {
+            dispatch(putAuthenticatedUser({}));
             localStorage.clear();
         });
     };
@@ -25,7 +25,7 @@ function NavbarComponent() {
                 <Container>
                     <Navbar.Brand href="#home">Navbar</Navbar.Brand>
 
-                    {!isExpired(currentUser.token) ? (
+                    {!isExpired(authenticatedUser.token) ? (
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/profile">
                                 Profile
@@ -35,7 +35,7 @@ function NavbarComponent() {
                         <></>
                     )}
                     <Nav>
-                        {isExpired(currentUser.token) ? (
+                        {isExpired(authenticatedUser.token) ? (
                             <Nav.Link as={Link} to="/login">
                                 Login
                             </Nav.Link>

@@ -10,7 +10,7 @@ import {
     DEFAULT_REGISTRATION_PASSWORD,
     INITIAL_MODAL_DATA,
 } from "../constants";
-import userService from "../services/api/user-service";
+import authService from "../services/api/auth-service";
 import { useState } from "react";
 import CustomModal from "./custom-modal";
 
@@ -30,7 +30,7 @@ export default function RegistrationForm() {
     const navigate = useNavigate();
 
     const handleRegistration = (values) => {
-        userService
+        authService
             .register(values)
             .then((response) => {
                 setModalData({
