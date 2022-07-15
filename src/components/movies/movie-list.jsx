@@ -23,6 +23,7 @@ export const MovieList = () => {
                     {movies.map((movie, idx) => (
                         <Col key={idx}>
                             <MovieCard
+                                id={movie.id}
                                 title={movie.title}
                                 description={movie.description}
                                 imageUrl={movie.imageUrl}

@@ -1,10 +1,23 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { selectMovie } from "../../store/movie/actions";
 
 const maxDescriptionLength = 150;
 
 export const MovieCard = (props) => {
-    const { title, description, imageUrl, genre } = props;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { id, title, description, imageUrl, genre } = props;
+
+    const handleClick = () => {
+        console.log("My ID : " + id);
+        dispatch(selectMovie(id));
+        navigate(`/movie/${id}`);
+    };
+
     return (
         <Card style={{ width: "18rem" }}>
             <Card.Img
@@ -20,7 +33,9 @@ export const MovieCard = (props) => {
                         ? `${description.substring(0, maxDescriptionLength)}...`
                         : description}
                 </Card.Text>
-                <Button variant="primary">Read More</Button>
+                <Button variant="primary" onClick={handleClick}>
+                    Read More
+                </Button>
             </Card.Body>
         </Card>
     );

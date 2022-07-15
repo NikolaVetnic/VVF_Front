@@ -14,6 +14,7 @@ import Forbidden from "./pages/forbidden";
 import RegisterPage from "./pages/register-page";
 import { modalSelector } from "./store/modal/selectors";
 import { CreateMoviePage } from "./pages/create-movie-page";
+import { MoviePage } from "./pages/movie-page";
 
 function App() {
     const loginModal = useSelector(modalSelector);
@@ -40,6 +41,15 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <CreateMoviePage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="movie/:id"
+                        element={
+                            <ProtectedRoute>
+                                <MoviePage />
                             </ProtectedRoute>
                         }
                     />
