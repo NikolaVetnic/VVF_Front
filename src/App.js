@@ -1,17 +1,19 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import CustomModal from "./components/custom-modal";
+import NavbarComponent from "./components/navbar";
+import ProtectedRoute from "./components/protected-route";
 
 import LoginPage from "./pages/login-page";
 import ProfilePage from "./pages/profile-page";
 import Forbidden from "./pages/forbidden";
-import ProtectedRoute from "./components/protected-route";
-import NavbarComponent from "./components/navbar";
 import RegisterPage from "./pages/register-page";
-import CustomModal from "./components/custom-modal";
-import { useSelector } from "react-redux";
 import { modalSelector } from "./store/modal/selectors";
+import { CreateMoviePage } from "./pages/create-movie-page";
 
 function App() {
     const loginModal = useSelector(modalSelector);
@@ -29,6 +31,15 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <ProfilePage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="movies/create"
+                        element={
+                            <ProtectedRoute>
+                                <CreateMoviePage />
                             </ProtectedRoute>
                         }
                     />

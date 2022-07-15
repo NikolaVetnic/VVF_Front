@@ -11,6 +11,7 @@ const ProfilePage = () => {
                 <Row style={{ padding: "2rem" }}>
                     <h3>Welcome</h3>
                     <p>You are logged in as {authenticatedUser.name}</p>
+                    <hr />
                 </Row>
             </Container>
         </div>

@@ -1,12 +1,12 @@
 import Container from "react-bootstrap/Container";
+import { isExpired } from "react-jwt";
+import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { isExpired } from "react-jwt";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link } from "react-router-dom";
-import { putAuthenticatedUser } from "../store/auth/slice";
 import authService from "../services/api/auth-service";
+import { putAuthenticatedUser } from "../store/auth/slice";
 import { tokenSelector } from "../store/auth/selectors";
 
 function NavbarComponent() {
@@ -27,11 +27,16 @@ function NavbarComponent() {
                     <Navbar.Brand href="#home">Navbar</Navbar.Brand>
 
                     {!isExpired(token) ? (
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/profile">
-                                Profile
-                            </Nav.Link>
-                        </Nav>
+                        <>
+                            <Nav className="me-auto">
+                                <Nav.Link as={Link} to="/profile">
+                                    Profile
+                                </Nav.Link>
+                                <Nav.Link as={Link} to="/movies/create">
+                                    Create Movie
+                                </Nav.Link>
+                            </Nav>
+                        </>
                     ) : (
                         <></>
                     )}

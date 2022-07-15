@@ -45,6 +45,7 @@ class AuthService extends HttpBaseClient {
                 password,
             })
             .then((response) => response.data);
+
         return newUser;
     };
 
