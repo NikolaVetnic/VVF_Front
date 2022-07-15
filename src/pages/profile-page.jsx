@@ -1,8 +1,9 @@
 import { Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { userDataSelector } from "../store/auth/selectors";
 
 const ProfilePage = () => {
-    const authenticatedUser = useSelector((state) => state.auth.current);
+    const authenticatedUser = useSelector(userDataSelector);
 
     return (
         <div>

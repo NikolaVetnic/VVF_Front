@@ -1,11 +1,12 @@
 import { isExpired } from "react-jwt";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { tokenSelector } from "../store/auth/selectors";
 
 const ProtectedRoute = ({ children }) => {
-    const authenticatedUser = useSelector((state) => state.auth.current);
+    const token = useSelector(tokenSelector);
 
-    if (isExpired(authenticatedUser.token)) {
+    if (isExpired(token)) {
         return <Navigate to="/forbidden" replace />;
     }
 

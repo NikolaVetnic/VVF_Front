@@ -14,6 +14,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CustomModal from "./custom-modal";
+import * as authConstants from "../store/auth/constants";
+import { testAuth } from "../store/auth/actions";
 
 const schema = yup.object({
     email: yup.string().email("Invalid email address").required("Required"),
@@ -27,6 +29,7 @@ export default function LoginForm() {
     const navigate = useNavigate();
 
     const handleLogin = (values) => {
+        dispatch(testAuth(values.email));
         authService
             .login(values)
             .then((response) => {
