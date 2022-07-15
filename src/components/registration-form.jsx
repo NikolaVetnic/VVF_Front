@@ -36,7 +36,10 @@ export default function RegistrationForm() {
             <Col>
                 <Formik
                     validationSchema={schema}
-                    onSubmit={(values) => handleRegistration(values)}
+                    onSubmit={(values, actions) => {
+                        handleRegistration(values);
+                        actions.setSubmitting(false);
+                    }}
                     initialValues={{
                         name: DEFAULT_REGISTRATION_NAME,
                         email: DEFAULT_REGISTRATION_EMAIL,

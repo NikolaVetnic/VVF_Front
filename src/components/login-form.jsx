@@ -40,9 +40,7 @@ export default function LoginForm() {
                     validationSchema={schema}
                     onSubmit={(values, actions) => {
                         handleLogin(values);
-                        setTimeout(() => {
-                            actions.setSubmitting(false);
-                        }, 100);
+                        actions.setSubmitting(false);
                     }}
                     initialValues={{
                         email: DEFAULT_LOGIN_EMAIL,
