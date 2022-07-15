@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { moviesSelector } from "../../store/movie/selectors";
-import { Items } from "./items";
-import ReactPaginate from "react-paginate";
-import { getMovies } from "../../store/movie/actions";
 import { Col, Container, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+import { getMovies } from "../../store/movie/actions";
+import { Items } from "./items";
+import { moviesSelector } from "../../store/movie/selectors";
+import ReactPaginate from "react-paginate";
 
 export default function PaginatedItems({
     itemsPerPage,

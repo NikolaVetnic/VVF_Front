@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { selectMovie } from "../../store/movie/actions";
 
 const maxDescriptionLength = 150;

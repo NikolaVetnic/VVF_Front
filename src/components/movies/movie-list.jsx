@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Dropdown, Form, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { MOVIE_GENRES } from "../../constants";
-import { getMovies } from "../../store/movie/actions";
+import { Col, Dropdown, Form, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+
 import { moviesSelector } from "../../store/movie/selectors";
-import { Items } from "./items";
 import PaginatedItems from "./paginated-items";
+
+import { MOVIE_GENRES } from "../../constants";
 
 const timeToWaitBeforeSearching = 750;
 
 export const MovieList = () => {
-    const dispatch = useDispatch();
-
     const movies = useSelector(moviesSelector);
 
     const [inputValue, setInputValue] = useState("");

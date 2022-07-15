@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { selectedMovieSelector } from "../store/movie/selectors";
 
 export const MoviePage = () => {
+    // for future reference
     const { id } = useParams();
 
     const { title, description, imageUrl, genre } = useSelector(
