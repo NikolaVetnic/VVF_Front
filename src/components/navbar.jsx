@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { putAuthenticatedUser } from "../store/auth/slice";
 import authService from "../services/api/auth-service";
+import { tokenSelector } from "../store/auth/selectors";
 
 function NavbarComponent() {
     const dispatch = useDispatch();
-    const authenticatedUser = useSelector((state) => state.auth.current);
+    const token = useSelector(tokenSelector);
 
     const handleLogout = () => {
         authService.logout().then(() => {
@@ -25,7 +26,7 @@ function NavbarComponent() {
                 <Container>
                     <Navbar.Brand href="#home">Navbar</Navbar.Brand>
 
-                    {!isExpired(authenticatedUser.token) ? (
+                    {!isExpired(token) ? (
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/profile">
                                 Profile
@@ -35,7 +36,7 @@ function NavbarComponent() {
                         <></>
                     )}
                     <Nav>
-                        {isExpired(authenticatedUser.token) ? (
+                        {isExpired(token) ? (
                             <Nav.Link as={Link} to="/login">
                                 Login
                             </Nav.Link>

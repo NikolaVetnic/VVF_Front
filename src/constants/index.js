@@ -14,3 +14,14 @@ export const INITIAL_MODAL_DATA = {
         return;
     },
 };
+
+export const INITIAL_USER_DATA = {
+    current: {
+        token: localStorage.getItem("token"),
+        data: {
+            id: localStorage.getItem("id"),
+            name: localStorage.getItem("name"),
+            email: localStorage.getItem("email"),
+        },
+    },
+};

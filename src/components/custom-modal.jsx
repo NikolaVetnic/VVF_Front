@@ -1,7 +1,17 @@
 import { Button, Modal } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function CustomModal({ data }) {
-    const { title, message, buttonCaption, onHide, ...rest } = data;
+    const { title, message, buttonCaption, onHide, path, ...rest } = data;
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const onHideAction = () => {
+        dispatch(onHide({ ...data, show: false }));
+        navigate(path);
+    };
 
     return (
         <>
@@ -20,7 +30,7 @@ export default function CustomModal({ data }) {
                     <p>{message}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={onHide}>{buttonCaption}</Button>
+                    <Button onClick={onHideAction}>{buttonCaption}</Button>
                 </Modal.Footer>
             </Modal>
         </>

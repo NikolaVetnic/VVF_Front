@@ -1,18 +1,15 @@
 import { Form, Formik } from "formik";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
 
 import CustomFormTextField from "./custom-form-text-field";
 import {
     DEFAULT_REGISTRATION_NAME,
     DEFAULT_REGISTRATION_EMAIL,
     DEFAULT_REGISTRATION_PASSWORD,
-    INITIAL_MODAL_DATA,
 } from "../constants";
-import authService from "../services/api/auth-service";
-import { useState } from "react";
-import CustomModal from "./custom-modal";
+import { register } from "../store/auth/actions";
+import { useDispatch } from "react-redux";
 
 const schema = yup.object({
     name: yup
@@ -25,38 +22,13 @@ const schema = yup.object({
 });
 
 export default function RegistrationForm() {
-    const [modalData, setModalData] = useState(INITIAL_MODAL_DATA);
+    const dispatch = useDispatch();
 
-    const navigate = useNavigate();
-
-    const handleRegistration = (values) => {
-        authService
-            .register(values)
-            .then((response) => {
-                setModalData({
-                    show: true,
-                    title: "User registered",
-                    message:
-                        "You will now be redirected to the Login screen...",
-                    buttonCaption: "Close",
-                    onHide: () => {
-                        setModalData(INITIAL_MODAL_DATA);
-                        navigate("/login");
-                    },
-                });
-            })
-            .catch((error) => {
-                const message = error.response.data.error;
-                setModalData({
-                    show: true,
-                    title: "Error",
-                    message: message,
-                    buttonCaption: "Close",
-                    onHide: () => {
-                        setModalData(INITIAL_MODAL_DATA);
-                    },
-                });
-            });
+    const handleRegistration = (values, actions) => {
+        dispatch(register({ ...values }));
+        setTimeout(() => {
+            actions.setSubmitting(false);
+        }, 100);
     };
 
     return (
@@ -64,7 +36,10 @@ export default function RegistrationForm() {
             <Col>
                 <Formik
                     validationSchema={schema}
-                    onSubmit={(values) => handleRegistration(values)}
+                    onSubmit={(values, actions) => {
+                        handleRegistration(values);
+                        actions.setSubmitting(false);
+                    }}
                     initialValues={{
                         name: DEFAULT_REGISTRATION_NAME,
                         email: DEFAULT_REGISTRATION_EMAIL,
@@ -125,8 +100,6 @@ export default function RegistrationForm() {
                                         />
                                     </Col>
                                 </Row>
-
-                                <CustomModal data={modalData} />
                             </Container>
                         </Form>
                     )}
