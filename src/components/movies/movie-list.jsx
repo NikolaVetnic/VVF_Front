@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Dropdown, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { MOVIE_GENRES } from "../../constants";
 import { getMovies } from "../../store/movie/actions";
 import { moviesSelector } from "../../store/movie/selectors";
 import { MovieCard } from "./movie-card";
@@ -9,9 +10,13 @@ const timeToWaitBeforeSearching = 750;
 
 export const MovieList = () => {
     const dispatch = useDispatch();
+
     const movies = useSelector(moviesSelector);
+
     const [inputValue, setInputValue] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+
+    const [genreFilter, setGenreFilter] = useState("all");
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -24,20 +29,63 @@ export const MovieList = () => {
         dispatch(getMovies());
     }, [dispatch]);
 
+    const onClick = (e) => {
+        console.log("hey " + e.target.value);
+    };
+
     if (movies !== undefined) {
         return (
             <div>
                 <Row>
-                    <Form className="d-flex">
-                        <Form.Control
-                            type="search"
-                            placeholder="Search movies by title"
-                            className="me-2"
-                            aria-label="Search"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                        />
-                    </Form>
+                    <Col xs={9}>
+                        <Form className="d-flex">
+                            <Form.Control
+                                type="search"
+                                placeholder="Search movies by title"
+                                className="me-2"
+                                aria-label="Search"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                            />
+                        </Form>
+                    </Col>
+                    <Col xs={3}>
+                        <Dropdown>
+                            <Dropdown.Toggle
+                                variant="success"
+                                id="dropdown-basic"
+                            >
+                                &nbsp;Filter Movies by Genre&nbsp;
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item
+                                    key={1}
+                                    value="all"
+                                    as="button"
+                                    onClick={(e) =>
+                                        setGenreFilter(e.target.value)
+                                    }
+                                >
+                                    all
+                                </Dropdown.Item>
+                                {Object.values(MOVIE_GENRES).map(
+                                    (item, idx) => (
+                                        <Dropdown.Item
+                                            key={idx + 1}
+                                            value={item}
+                                            as="button"
+                                            onClick={(e) =>
+                                                setGenreFilter(e.target.value)
+                                            }
+                                        >
+                                            {item}
+                                        </Dropdown.Item>
+                                    )
+                                )}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Col>
                 </Row>
                 <Row
                     xs={1}
@@ -52,6 +100,11 @@ export const MovieList = () => {
                                 : movie.title
                                       .toLowerCase()
                                       .includes(searchTerm.toLowerCase())
+                        )
+                        .filter((movie) =>
+                            genreFilter === "all"
+                                ? true
+                                : movie.genre === genreFilter
                         )
                         .map((movie, idx) => (
                             <Col key={idx}>
