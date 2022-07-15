@@ -11,17 +11,17 @@ const initialState = {
     },
 };
 
-const userSlice = createSlice({
-    name: "user",
+const authSlice = createSlice({
+    name: "auth",
     initialState,
     reducers: {
-        save: (state, action) => {
+        putAuthenticatedUser: (state, action) => {
             state.current = action.payload;
         },
     },
 });
 
-const { actions, reducer } = userSlice;
+const { actions, reducer } = authSlice;
 
-export const { save } = actions;
+export const { putAuthenticatedUser } = actions;
 export default reducer;
