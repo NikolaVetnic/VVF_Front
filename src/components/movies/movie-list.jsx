@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Col, Dropdown, Form, Row } from "react-bootstrap";
+import { Col, Container, Dropdown, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { MOVIE_GENRES } from "../../constants";
 import { getMovies } from "../../store/movie/actions";
 import { moviesSelector } from "../../store/movie/selectors";
-import { MovieCard } from "./movie-card";
+import { Items } from "./items";
+import PaginatedItems from "./paginated-items";
 
 const timeToWaitBeforeSearching = 750;
 
@@ -24,14 +25,6 @@ export const MovieList = () => {
         }, timeToWaitBeforeSearching);
         return () => clearTimeout(delayDebounceFn);
     }, [inputValue]);
-
-    useEffect(() => {
-        dispatch(getMovies());
-    }, [dispatch]);
-
-    const onClick = (e) => {
-        console.log("hey " + e.target.value);
-    };
 
     if (movies !== undefined) {
         return (
@@ -87,36 +80,13 @@ export const MovieList = () => {
                         </Dropdown>
                     </Col>
                 </Row>
-                <Row
-                    xs={1}
-                    md={3}
-                    className="g-4"
-                    style={{ marginTop: "0rem" }}
-                >
-                    {movies
-                        .filter((movie) =>
-                            searchTerm === ""
-                                ? true
-                                : movie.title
-                                      .toLowerCase()
-                                      .includes(searchTerm.toLowerCase())
-                        )
-                        .filter((movie) =>
-                            genreFilter === "all"
-                                ? true
-                                : movie.genre === genreFilter
-                        )
-                        .map((movie, idx) => (
-                            <Col key={idx}>
-                                <MovieCard
-                                    id={movie.id}
-                                    title={movie.title}
-                                    description={movie.description}
-                                    imageUrl={movie.imageUrl}
-                                    genre={movie.genre}
-                                />
-                            </Col>
-                        ))}
+                <hr />
+                <Row>
+                    <PaginatedItems
+                        itemsPerPage={3}
+                        searchTerm={searchTerm}
+                        genreFilter={genreFilter}
+                    />
                 </Row>
             </div>
         );

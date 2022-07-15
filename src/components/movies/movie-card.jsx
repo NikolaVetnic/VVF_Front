@@ -19,7 +19,7 @@ export const MovieCard = (props) => {
     };
 
     return (
-        <Card style={{ width: "18rem" }}>
+        <Card style={{ width: "17rem" }}>
             <Card.Img
                 variant="top"
                 src={imageUrl}

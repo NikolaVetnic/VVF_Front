@@ -30,6 +30,10 @@ export const MoviePage = () => {
             <Row style={{ marginTop: "1rem" }}>
                 <span>{description}</span>
             </Row>
+
+            <Row style={{ marginTop: "1rem", marginBottom: "2rem" }}>
+                <hr />
+            </Row>
         </Container>
     );
 };
