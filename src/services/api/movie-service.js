@@ -2,6 +2,7 @@ import HttpBaseClient from "../http-base-client";
 
 const ENDPOINTS = {
     CREATE: "api/movies/store",
+    INDEX: "api/movies/index",
 };
 
 class MovieService extends HttpBaseClient {
@@ -16,11 +17,18 @@ class MovieService extends HttpBaseClient {
                 genre,
             })
             .then((response) => {
-                console.log(response.data);
                 return response.data;
             });
 
         return newMovie;
+    };
+
+    getMovies = async () => {
+        const movies = this.getApiClient()
+            .get(ENDPOINTS.INDEX)
+            .then((response) => response.data);
+
+        return movies;
     };
 }
 
