@@ -3,14 +3,16 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function CustomModal({ data }) {
-    const { title, message, buttonCaption, onHide, path, ...rest } = data;
+    const { title, message, buttonCaption, onHide, ...rest } = data;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const onHideAction = () => {
         dispatch(onHide({ ...data, show: false }));
-        navigate(path);
+        if (data.hasOwnProperty("path")) {
+            navigate(data.path);
+        }
     };
 
     return (

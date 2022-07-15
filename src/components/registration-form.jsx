@@ -24,11 +24,8 @@ const schema = yup.object({
 export default function RegistrationForm() {
     const dispatch = useDispatch();
 
-    const handleRegistration = (values, actions) => {
+    const handleRegistration = (values) => {
         dispatch(register({ ...values }));
-        setTimeout(() => {
-            actions.setSubmitting(false);
-        }, 100);
     };
 
     return (
