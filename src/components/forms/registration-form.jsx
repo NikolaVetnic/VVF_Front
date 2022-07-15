@@ -1,44 +1,32 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
 import { Form, Formik } from "formik";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 
-import CustomFormTextField from "./custom-form-text-field";
-import CustomFormTextArea from "./custom-form-text-area";
-import CustomFormDropdown from "./custom-form-dropdown";
+import CustomFormTextField from "../custom-form-elements/custom-form-text-field";
+import { register } from "../../store/auth/actions";
 
 import {
-    DEFAULT_MOVIE_TITLE,
-    DEFAULT_MOVIE_DESCRIPTION,
-    DEFAULT_MOVIE_IMAGEURL,
-    URL_REGEX,
-    MOVIE_GENRES,
-} from "../constants";
-import { createMovie } from "../store/movie/actions";
+    DEFAULT_REGISTRATION_NAME,
+    DEFAULT_REGISTRATION_EMAIL,
+    DEFAULT_REGISTRATION_PASSWORD,
+} from "../../constants";
 
 const schema = yup.object({
-    title: yup
+    name: yup
         .string()
-        .min(1, "Title cannot be shorter than 1 character")
-        .max(50, "Title cannot be longer than 50 characters")
+        .min(3, "Name cannot be shorter than 3 characters")
+        .max(50, "Name cannot be longer than 50 characters")
         .required("Required"),
-    description: yup
-        .string()
-        .min(20, "Description cannot be shorter than 20 character")
-        .max(250, "Description cannot be longer than 250 characters")
-        .required("Required"),
-    imageUrl: yup
-        .string()
-        .matches(URL_REGEX, "Enter a valid url")
-        .required("Required"),
-    genre: yup.string(),
+    email: yup.string().email("Invalid email address").required("Required"),
+    password: yup.string().required("Required"),
 });
 
-export default function CreateMovieForm() {
+export default function RegistrationForm() {
     const dispatch = useDispatch();
 
-    const handleCreateMovie = (values) => {
-        dispatch(createMovie({ ...values }));
+    const handleRegistration = (values) => {
+        dispatch(register({ ...values }));
     };
 
     return (
@@ -47,13 +35,13 @@ export default function CreateMovieForm() {
                 <Formik
                     validationSchema={schema}
                     onSubmit={(values, actions) => {
-                        handleCreateMovie(values);
-                        // actions.setSubmitting(false);
+                        handleRegistration(values);
+                        actions.setSubmitting(false);
                     }}
                     initialValues={{
-                        title: DEFAULT_MOVIE_TITLE,
-                        description: DEFAULT_MOVIE_DESCRIPTION,
-                        imageUrl: DEFAULT_MOVIE_IMAGEURL,
+                        name: DEFAULT_REGISTRATION_NAME,
+                        email: DEFAULT_REGISTRATION_EMAIL,
+                        password: DEFAULT_REGISTRATION_PASSWORD,
                     }}
                 >
                     {({
@@ -67,38 +55,30 @@ export default function CreateMovieForm() {
                         <Form noValidate onSubmit={handleSubmit}>
                             <Container style={{ width: "50%" }}>
                                 <Row style={{ marginTop: "2rem" }}>
-                                    <h2>Create Movie</h2>
+                                    <h2>Register</h2>
                                 </Row>
 
                                 <Row style={{ marginTop: "2rem" }}>
                                     <CustomFormTextField
-                                        label="Title"
-                                        name="title"
-                                        type="text"
-                                    />
-                                </Row>
-
-                                <Row style={{ marginTop: "2rem" }}>
-                                    <CustomFormTextArea
-                                        label="Description"
-                                        name="description"
-                                    />
-                                </Row>
-
-                                <Row style={{ marginTop: "1rem" }}>
-                                    <CustomFormTextField
-                                        label="Image URL"
-                                        name="imageUrl"
+                                        label="Name"
+                                        name="name"
                                         type="text"
                                     />
                                 </Row>
 
                                 <Row style={{ marginTop: "1rem" }}>
-                                    <CustomFormDropdown
-                                        label="Genre"
-                                        name="genre"
-                                        values={MOVIE_GENRES}
-                                        info="- select genre -"
+                                    <CustomFormTextField
+                                        label="Email"
+                                        name="email"
+                                        type="email"
+                                    />
+                                </Row>
+
+                                <Row style={{ marginTop: "1rem" }}>
+                                    <CustomFormTextField
+                                        label="Password"
+                                        name="password"
+                                        type="password"
                                     />
                                 </Row>
 
@@ -110,7 +90,7 @@ export default function CreateMovieForm() {
                                             as="input"
                                             size="lg"
                                             type="submit"
-                                            value="Create Movie"
+                                            value="Register"
                                             style={{
                                                 width: "10rem",
                                                 margin: "2rem",
