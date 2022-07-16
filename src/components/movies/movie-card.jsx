@@ -3,7 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { selectMovie } from "../../store/movie/actions";
+import { incNumVisits, selectMovie } from "../../store/movie/actions";
 
 const maxDescriptionLength = 150;
 
@@ -16,6 +16,7 @@ export const MovieCard = (props) => {
     const handleClick = () => {
         console.log("My ID : " + id);
         dispatch(selectMovie(id));
+        dispatch(incNumVisits(id));
         navigate(`/movie/${id}`);
     };
 

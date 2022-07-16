@@ -8,7 +8,7 @@ export const MoviePage = () => {
     // for future reference
     const { id } = useParams();
 
-    const { title, description, imageUrl, genre } = useSelector(
+    const { title, description, imageUrl, genre, num_visits } = useSelector(
         selectedMovieSelector
     );
 
@@ -32,8 +32,12 @@ export const MoviePage = () => {
                 <span>{description}</span>
             </Row>
 
-            <Row style={{ marginTop: "1rem", marginBottom: "2rem" }}>
+            <Row style={{ marginTop: "1rem" }}>
                 <hr />
+            </Row>
+
+            <Row style={{ marginBottom: "2rem" }}>
+                <span>{`Movie viewed ${num_visits} time(s)`}</span>
             </Row>
         </Container>
     );

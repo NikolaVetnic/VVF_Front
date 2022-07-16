@@ -4,6 +4,7 @@ const ENDPOINTS = {
     CREATE: "api/movies/store",
     INDEX: "api/movies/index",
     SHOW: "api/movies/show/",
+    INC_NUM_VISITS: "api/movies/visit/",
 };
 
 class MovieService extends HttpBaseClient {
@@ -42,6 +43,17 @@ class MovieService extends HttpBaseClient {
         localStorage.setItem("selectedMovieDescription", movie.description);
         localStorage.setItem("selectedMovieImageUrl", movie.imageUrl);
         localStorage.setItem("selectedMovieGenre", movie.genre);
+        localStorage.setItem("selectedMovieVisits", movie.numVisited);
+
+        return movie;
+    };
+
+    incrementNumVisits = async (id) => {
+        const movie = await this.getApiClient()
+            .post(ENDPOINTS.INC_NUM_VISITS + id)
+            .then((response) => response.data);
+
+        localStorage.setItem("selectedMovieVisits", movie.numVisited);
 
         return movie;
     };

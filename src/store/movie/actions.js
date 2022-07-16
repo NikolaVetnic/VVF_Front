@@ -1,4 +1,9 @@
-import { CREATE_MOVIE, GET_MOVIES, SELECT_MOVIE } from "./constants";
+import {
+    CREATE_MOVIE,
+    GET_MOVIES,
+    INC_NUM_VISITS,
+    SELECT_MOVIE,
+} from "./constants";
 
 export const createMovie = (payload) => ({
     type: CREATE_MOVIE,
@@ -11,5 +16,10 @@ export const getMovies = () => ({
 
 export const selectMovie = (payload) => ({
     type: SELECT_MOVIE,
+    payload,
+});
+
+export const incNumVisits = (payload) => ({
+    type: INC_NUM_VISITS,
     payload,
 });

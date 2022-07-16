@@ -2,7 +2,12 @@ import { call, put, take } from "redux-saga/effects";
 import movieService from "../../services/api/movie-service";
 import { loginModalDisplay } from "../modal/actions";
 import { setModal } from "../modal/slice";
-import { CREATE_MOVIE, GET_MOVIES, SELECT_MOVIE } from "./constants";
+import {
+    CREATE_MOVIE,
+    GET_MOVIES,
+    INC_NUM_VISITS,
+    SELECT_MOVIE,
+} from "./constants";
 import { putFetchedMovies, selectMovies } from "./slice";
 
 export function* storeMovie() {
@@ -43,6 +48,16 @@ export function* displayMovie() {
     }
 }
 
-const movieSagas = [storeMovie, fetchMovies, displayMovie];
+export function* incNumVisits() {
+    try {
+        const { payload } = yield take(INC_NUM_VISITS);
+        const data = yield call(movieService.incrementNumVisits, payload);
+        yield put(selectMovies(data));
+    } catch (error) {
+        console.log("incNumVisits() : Error occurred");
+    }
+}
+
+const movieSagas = [storeMovie, fetchMovies, displayMovie, incNumVisits];
 
 export default movieSagas;
