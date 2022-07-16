@@ -4,11 +4,13 @@ import { loginModalDisplay } from "../modal/actions";
 import { setModal } from "../modal/slice";
 import {
     CREATE_MOVIE,
+    GET_COMMENTS,
     GET_MOVIES,
     INC_NUM_VISITS,
+    POST_COMMENT,
     SELECT_MOVIE,
 } from "./constants";
-import { putFetchedMovies, selectMovies } from "./slice";
+import { putFetchedMovies, selectComments, selectMovies } from "./slice";
 
 export function* storeMovie() {
     try {
@@ -58,6 +60,35 @@ export function* incNumVisits() {
     }
 }
 
-const movieSagas = [storeMovie, fetchMovies, displayMovie, incNumVisits];
+export function* displayComments() {
+    try {
+        const { payload } = yield take(GET_COMMENTS);
+        const data = yield call(movieService.selectComments, payload);
+        yield put(selectComments(data));
+    } catch (error) {
+        console.log("displayComments() : Error occurred");
+    }
+}
+
+export function* storeComment() {
+    try {
+        const { payload } = yield take(POST_COMMENT);
+        const { movieId } = payload;
+        yield call(movieService.createComment, payload);
+        const data = yield call(movieService.selectComments, movieId);
+        yield put(selectComments(data));
+    } catch (error) {
+        console.log("storeMovie() : Error occurred");
+    }
+}
+
+const movieSagas = [
+    storeMovie,
+    fetchMovies,
+    displayMovie,
+    incNumVisits,
+    displayComments,
+    storeComment,
+];
 
 export default movieSagas;

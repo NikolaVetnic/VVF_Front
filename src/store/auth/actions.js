@@ -1,4 +1,4 @@
-import { LOGIN, TEST, REGISTER } from "./constants";
+import { LOGIN, TEST, REGISTER, GET_USER } from "./constants";
 
 export const testAuth = (payload) => ({
     type: TEST,

@@ -1,7 +1,9 @@
 import {
     CREATE_MOVIE,
+    GET_COMMENTS,
     GET_MOVIES,
     INC_NUM_VISITS,
+    POST_COMMENT,
     SELECT_MOVIE,
 } from "./constants";
 
@@ -21,5 +23,15 @@ export const selectMovie = (payload) => ({
 
 export const incNumVisits = (payload) => ({
     type: INC_NUM_VISITS,
+    payload,
+});
+
+export const getComments = (payload) => ({
+    type: GET_COMMENTS,
+    payload,
+});
+
+export const postComment = (payload) => ({
+    type: POST_COMMENT,
     payload,
 });

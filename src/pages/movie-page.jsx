@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { selectedMovieSelector } from "../store/movie/selectors";
+import { Comments } from "../components/movies/comments";
+import { getComments } from "../store/movie/actions";
+import {
+    selectedCommentsSelector,
+    selectedMovieSelector,
+} from "../store/movie/selectors";
 
 export const MoviePage = () => {
+    const dispatch = useDispatch();
+
     // for future reference
     const { id } = useParams();
 
     const { title, description, imageUrl, genre, num_visits } = useSelector(
         selectedMovieSelector
     );
+
+    console.log(num_visits);
+
+    useEffect(() => {
+        dispatch(getComments(id));
+    }, [dispatch, id]);
 
     return (
         <Container>
@@ -36,8 +49,16 @@ export const MoviePage = () => {
                 <hr />
             </Row>
 
-            <Row style={{ marginBottom: "2rem" }}>
+            <Row style={{ marginBottom: "1rem" }}>
                 <span>{`Movie viewed ${num_visits} time(s)`}</span>
+            </Row>
+
+            <Row style={{ marginTop: "1rem" }}>
+                <hr />
+            </Row>
+
+            <Row style={{ marginBottom: "2rem" }}>
+                <Comments />
             </Row>
         </Container>
     );

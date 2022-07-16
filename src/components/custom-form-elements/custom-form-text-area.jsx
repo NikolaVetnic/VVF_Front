@@ -10,6 +10,7 @@ function CustomFormTextArea({
     name,
     type,
     inputGroupPrepend,
+    customRows,
 }) {
     return (
         <Field name={name} component="textarea" rows="4">
@@ -24,7 +25,7 @@ function CustomFormTextArea({
                             <Form.Control
                                 {...field}
                                 as="textarea"
-                                rows={8}
+                                rows={!!customRows ? customRows : 8}
                                 type={type}
                                 isValid={form.touched[field.name] && isValid}
                                 isInvalid={isInvalid}

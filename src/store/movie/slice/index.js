@@ -11,15 +11,17 @@ const movieSlice = createSlice({
             description: localStorage.getItem("selectedMovieDescription"),
             imageUrl: localStorage.getItem("selectedMovieImageUrl"),
             genre: localStorage.getItem("selectedMovieGenre"),
+            num_visits: localStorage.getItem("selectedMovieVisits"),
         },
     },
     reducers: {
         putFetchedMovies: updateStateFunctions.putFetchedMovies,
         selectMovies: updateStateFunctions.selectMovies,
+        selectComments: updateStateFunctions.selectComments,
     },
 });
 
 const { actions, reducer: movieReducer } = movieSlice;
 
-export const { putFetchedMovies, selectMovies } = actions;
+export const { putFetchedMovies, selectMovies, selectComments } = actions;
 export default movieReducer;

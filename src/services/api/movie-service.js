@@ -5,6 +5,8 @@ const ENDPOINTS = {
     INDEX: "api/movies/index",
     SHOW: "api/movies/show/",
     INC_NUM_VISITS: "api/movies/visit/",
+    COMMENTS: "api/movies/comments/",
+    CREATE_COMMENT: "api/comments/store",
 };
 
 class MovieService extends HttpBaseClient {
@@ -56,6 +58,28 @@ class MovieService extends HttpBaseClient {
         localStorage.setItem("selectedMovieVisits", movie.numVisited);
 
         return movie;
+    };
+
+    selectComments = async (id) => {
+        const comments = await this.getApiClient()
+            .get(ENDPOINTS.COMMENTS + id)
+            .then((response) => response.data);
+
+        return comments;
+    };
+
+    createComment = async ({ userId, movieId, content }) => {
+        const newComment = this.getApiClient()
+            .post(ENDPOINTS.CREATE_COMMENT, {
+                userId,
+                movieId,
+                content,
+            })
+            .then((response) => {
+                return response.data;
+            });
+
+        return newComment;
     };
 }
 

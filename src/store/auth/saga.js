@@ -6,7 +6,7 @@ import { loginModalDisplay } from "../modal/actions";
 import { putAuthenticatedUser } from "./slice";
 import { setModal } from "../modal/slice";
 
-import { LOGIN, REGISTER, TEST } from "./constants";
+import { GET_USER, LOGIN, REGISTER, TEST } from "./constants";
 
 export function* testSaga() {
     while (true) {

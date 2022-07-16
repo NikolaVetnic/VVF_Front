@@ -5,6 +5,7 @@ const ENDPOINTS = {
     LOGOUT: "api/auth/logout",
     REGISTER: "api/auth/register",
     USER_DATA: "/api/auth/me",
+    GET_USER: "/api/auth/user/",
 };
 
 class AuthService extends HttpBaseClient {
@@ -55,6 +56,10 @@ class AuthService extends HttpBaseClient {
 
     getUserData = () => {
         return this.getApiClient().get(ENDPOINTS.USER_DATA);
+    };
+
+    displayUser = (id) => {
+        return this.getApiClient().get(ENDPOINTS.GET_USER + id);
     };
 }
 
