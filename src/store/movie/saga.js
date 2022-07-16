@@ -8,6 +8,7 @@ import {
     GET_MOVIES,
     INC_NUM_VISITS,
     POST_COMMENT,
+    POST_REACTION,
     SELECT_MOVIE,
 } from "./constants";
 import { putFetchedMovies, selectComments, selectMovies } from "./slice";
@@ -73,12 +74,28 @@ export function* displayComments() {
 export function* storeComment() {
     try {
         const { payload } = yield take(POST_COMMENT);
-        const { movieId } = payload;
         yield call(movieService.createComment, payload);
+
+        const { movieId } = payload;
         const data = yield call(movieService.selectComments, movieId);
+
         yield put(selectComments(data));
     } catch (error) {
         console.log("storeMovie() : Error occurred");
+    }
+}
+
+export function* storeReaction() {
+    try {
+        const { payload } = yield take(POST_REACTION);
+        yield call(movieService.createReaction, payload);
+
+        const { movieId } = payload;
+        const data = yield call(movieService.selectMovie, movieId);
+
+        yield put(selectMovies(data));
+    } catch (error) {
+        console.log("storeReaction() : Error occurred");
     }
 }
 
@@ -89,6 +106,7 @@ const movieSagas = [
     incNumVisits,
     displayComments,
     storeComment,
+    storeReaction,
 ];
 
 export default movieSagas;

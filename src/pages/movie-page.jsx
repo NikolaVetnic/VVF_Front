@@ -3,11 +3,9 @@ import { Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Comments } from "../components/movies/comments";
+import { ReactionsDisplay } from "../components/movies/reactions-display";
 import { getComments } from "../store/movie/actions";
-import {
-    selectedCommentsSelector,
-    selectedMovieSelector,
-} from "../store/movie/selectors";
+import { selectedMovieSelector } from "../store/movie/selectors";
 
 export const MoviePage = () => {
     const dispatch = useDispatch();
@@ -51,6 +49,10 @@ export const MoviePage = () => {
 
             <Row style={{ marginBottom: "1rem" }}>
                 <span>{`Movie viewed ${num_visits} time(s)`}</span>
+            </Row>
+
+            <Row style={{ marginBottom: "1rem" }}>
+                <ReactionsDisplay />
             </Row>
 
             <Row style={{ marginTop: "1rem" }}>

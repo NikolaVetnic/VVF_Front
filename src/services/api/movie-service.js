@@ -7,6 +7,7 @@ const ENDPOINTS = {
     INC_NUM_VISITS: "api/movies/visit/",
     COMMENTS: "api/movies/comments/",
     CREATE_COMMENT: "api/comments/store",
+    POST_REACTION: "api/reactions/store",
 };
 
 class MovieService extends HttpBaseClient {
@@ -45,7 +46,8 @@ class MovieService extends HttpBaseClient {
         localStorage.setItem("selectedMovieDescription", movie.description);
         localStorage.setItem("selectedMovieImageUrl", movie.imageUrl);
         localStorage.setItem("selectedMovieGenre", movie.genre);
-        localStorage.setItem("selectedMovieVisits", movie.numVisited);
+        localStorage.setItem("selectedMovieLikes", movie.likes);
+        localStorage.setItem("selectedMovieDislikes", movie.dislikes);
 
         return movie;
     };
@@ -80,6 +82,18 @@ class MovieService extends HttpBaseClient {
             });
 
         return newComment;
+    };
+
+    createReaction = async ({ userId, movieId, reaction }) => {
+        this.getApiClient()
+            .post(ENDPOINTS.POST_REACTION, {
+                userId,
+                movieId,
+                reaction,
+            })
+            .then((response) => {
+                return response.data;
+            });
     };
 }
 

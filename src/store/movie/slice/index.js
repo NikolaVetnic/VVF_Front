@@ -12,6 +12,8 @@ const movieSlice = createSlice({
             imageUrl: localStorage.getItem("selectedMovieImageUrl"),
             genre: localStorage.getItem("selectedMovieGenre"),
             num_visits: localStorage.getItem("selectedMovieVisits"),
+            likes: localStorage.getItem("selectedMovieLikes"),
+            dislikes: localStorage.getItem("selectedMovieDislikes"),
         },
     },
     reducers: {

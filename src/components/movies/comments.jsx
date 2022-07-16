@@ -47,18 +47,22 @@ export const Comments = () => {
                     );
                 })}
 
-                <Button
-                    variant="success"
-                    as="input"
-                    size="lg"
-                    type="button"
-                    onClick={handleLoadMore}
-                    value={`Load ${startingCount} More`}
-                    style={{
-                        width: "12rem",
-                        marginTop: "1rem",
-                    }}
-                />
+                {count < comments.length ? (
+                    <Button
+                        variant="success"
+                        as="input"
+                        size="lg"
+                        type="button"
+                        onClick={handleLoadMore}
+                        value={`Load ${startingCount} More`}
+                        style={{
+                            width: "12rem",
+                            marginTop: "1rem",
+                        }}
+                    />
+                ) : (
+                    <></>
+                )}
             </Container>
         );
     else return <Container>AA</Container>;
