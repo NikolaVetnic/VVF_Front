@@ -12,3 +12,8 @@ export const selectComments = (state, action) => ({
     ...state,
     selectedComments: action.payload,
 });
+
+export const putFavoritesByUser = (state, action) => ({
+    ...state,
+    favoritesByUser: action.payload,
+});

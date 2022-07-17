@@ -35,6 +35,7 @@ export const ReactionsDisplay = ({ userId, movieId }) => {
         <Container>
             <Row>
                 <Col></Col>
+                {/* ovde postoji problem ako koristim podatke iz store-a - ucitaju se tek nakon reload-a stranice */}
                 <Col>
                     <Button variant="outline-primary" onClick={handleDislike}>
                         Dislike ({localStorage.getItem("selectedMovieDislikes")}

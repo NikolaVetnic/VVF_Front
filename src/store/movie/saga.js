@@ -3,15 +3,24 @@ import movieService from "../../services/api/movie-service";
 import { loginModalDisplay } from "../modal/actions";
 import { setModal } from "../modal/slice";
 import {
+    ADD_TO_FAVORITES,
     CREATE_MOVIE,
+    FAVORITES_BY_USER,
     GET_COMMENTS,
     GET_MOVIES,
     INC_NUM_VISITS,
     POST_COMMENT,
     POST_REACTION,
+    REMOVE_FROM_FAVORITES,
     SELECT_MOVIE,
+    UPDATE_FAVORITE,
 } from "./constants";
-import { putFetchedMovies, selectComments, selectMovies } from "./slice";
+import {
+    putFavoritesByUser,
+    putFetchedMovies,
+    selectComments,
+    selectMovies,
+} from "./slice";
 
 export function* storeMovie() {
     try {
@@ -99,6 +108,56 @@ export function* storeReaction() {
     }
 }
 
+export function* fetchFavoritesByUser() {
+    try {
+        const { payload } = yield take(FAVORITES_BY_USER);
+        const data = yield call(movieService.selectFavoritesByUser, payload);
+        yield put(putFavoritesByUser(data));
+    } catch (error) {
+        console.log("fetchFavoritesByUser() : Error occurred");
+    }
+}
+
+export function* storeFavorite() {
+    try {
+        const { payload } = yield take(ADD_TO_FAVORITES);
+        yield call(movieService.createFavorite, payload);
+        console.log("storeFavorite() : Added to favorites");
+
+        const { userId } = payload;
+        const data = yield call(movieService.selectFavoritesByUser, userId);
+        yield put(putFavoritesByUser(data));
+    } catch (error) {
+        console.log("storeFavorite() : Error occurred");
+    }
+}
+
+export function* destroyFavorites() {
+    try {
+        const { payload } = yield take(REMOVE_FROM_FAVORITES);
+        yield call(movieService.destroyFavorite, payload);
+
+        const { userId } = payload;
+        const data = yield call(movieService.selectFavoritesByUser, userId);
+        yield put(putFavoritesByUser(data));
+    } catch (error) {
+        console.log("destroyFavorites() : Error occurred");
+    }
+}
+
+export function* updateFavoriteWatched() {
+    try {
+        const { payload } = yield take(UPDATE_FAVORITE);
+        yield call(movieService.updateFavorite, payload);
+
+        const { userId } = payload;
+        const data = yield call(movieService.selectFavoritesByUser, userId);
+        yield put(putFavoritesByUser(data));
+    } catch (error) {
+        console.log("updateFavoriteWatched() : Error occurred");
+    }
+}
+
 const movieSagas = [
     storeMovie,
     fetchMovies,
@@ -107,6 +166,10 @@ const movieSagas = [
     displayComments,
     storeComment,
     storeReaction,
+    fetchFavoritesByUser,
+    storeFavorite,
+    destroyFavorites,
+    updateFavoriteWatched,
 ];
 
 export default movieSagas;

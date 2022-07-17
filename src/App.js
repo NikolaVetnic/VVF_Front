@@ -19,6 +19,8 @@ import { MoviePage } from "./pages/movie-page";
 function App() {
     const loginModal = useSelector(modalSelector);
 
+    console.warn = () => {};
+
     return (
         <div className="App">
             <BrowserRouter>

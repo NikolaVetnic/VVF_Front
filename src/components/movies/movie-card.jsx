@@ -14,7 +14,6 @@ export const MovieCard = (props) => {
     const { id, title, description, imageUrl, genre } = props;
 
     const handleClick = () => {
-        console.log("My ID : " + id);
         dispatch(selectMovie(id));
         dispatch(incNumVisits(id));
         navigate(`/movie/${id}`);

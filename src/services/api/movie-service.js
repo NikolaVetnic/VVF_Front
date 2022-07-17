@@ -8,6 +8,10 @@ const ENDPOINTS = {
     COMMENTS: "api/movies/comments/",
     CREATE_COMMENT: "api/comments/store",
     POST_REACTION: "api/reactions/store",
+    FAVORITES_BY_USER: "api/favorites/index/user/",
+    ADD_TO_FAVORITES: "api/favorites/store",
+    REMOVE_FROM_FAVORITES: "api/favorites/destroy",
+    UPDATE_FAVORITE: "api/favorites/update",
 };
 
 class MovieService extends HttpBaseClient {
@@ -90,6 +94,48 @@ class MovieService extends HttpBaseClient {
                 userId,
                 movieId,
                 reaction,
+            })
+            .then((response) => {
+                return response.data;
+            });
+    };
+
+    selectFavoritesByUser = async (id) => {
+        const favorites = await this.getApiClient()
+            .get(ENDPOINTS.FAVORITES_BY_USER + id)
+            .then((response) => response.data);
+
+        return favorites;
+    };
+
+    createFavorite = async ({ userId, movieId, watched }) => {
+        this.getApiClient()
+            .post(ENDPOINTS.ADD_TO_FAVORITES, {
+                userId,
+                movieId,
+                watched,
+            })
+            .then((response) => {
+                return response.data;
+            });
+    };
+
+    destroyFavorite = async ({ userId, movieId }) => {
+        this.getApiClient()
+            .post(ENDPOINTS.REMOVE_FROM_FAVORITES, {
+                userId,
+                movieId,
+            })
+            .then((response) => {
+                return response.data;
+            });
+    };
+
+    updateFavorite = async ({ userId, movieId }) => {
+        this.getApiClient()
+            .put(ENDPOINTS.UPDATE_FAVORITE, {
+                userId,
+                movieId,
             })
             .then((response) => {
                 return response.data;

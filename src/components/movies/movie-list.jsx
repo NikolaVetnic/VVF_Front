@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Col, Dropdown, Form, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { moviesSelector } from "../../store/movie/selectors";
 import PaginatedItems from "./paginated-items";
+import { userDataSelector } from "../../store/auth/selectors";
 
 import { MOVIE_GENRES } from "../../constants";
+import { getFavoritesByUser } from "../../store/movie/actions";
 
 const timeToWaitBeforeSearching = 750;
 
 export const MovieList = () => {
+    const dispatch = useDispatch();
+
     const movies = useSelector(moviesSelector);
+    const authenticatedUser = useSelector(userDataSelector);
 
     const [inputValue, setInputValue] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
@@ -21,6 +26,9 @@ export const MovieList = () => {
         const delayDebounceFn = setTimeout(() => {
             setSearchTerm(inputValue);
         }, timeToWaitBeforeSearching);
+
+        dispatch(getFavoritesByUser(authenticatedUser.id));
+
         return () => clearTimeout(delayDebounceFn);
     }, [inputValue]);
 
