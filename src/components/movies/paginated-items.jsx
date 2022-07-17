@@ -26,9 +26,22 @@ export default function PaginatedItems({
 
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
-        setCurrentItems(movies.slice(itemOffset, endOffset));
+        setCurrentItems(
+            movies
+                .filter((movie) =>
+                    searchTerm === ""
+                        ? true
+                        : movie.title
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase())
+                )
+                .filter((movie) =>
+                    genreFilter === "all" ? true : movie.genre === genreFilter
+                )
+                .slice(itemOffset, endOffset)
+        );
         setPageCount(Math.ceil(movies.length / itemsPerPage));
-    }, [itemOffset, itemsPerPage, movies]);
+    }, [genreFilter, itemOffset, itemsPerPage, movies, searchTerm]);
 
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {

@@ -2,41 +2,25 @@ import { Col } from "react-bootstrap";
 import { MovieCard } from "./movie-card";
 
 export const Items = (props) => {
-    const { movies, searchTerm, genreFilter } = props;
+    const { movies } = props;
 
-    if (movies === null) return <>BBB</>;
+    if (movies === null) return <></>;
     else
         return (
             <>
-                {movies
-                    .filter((movie) =>
-                        searchTerm === ""
-                            ? true
-                            : movie.title
-                                  .toLowerCase()
-                                  .includes(searchTerm.toLowerCase())
-                    )
-                    .filter((movie) =>
-                        genreFilter === "all"
-                            ? true
-                            : movie.genre === genreFilter
-                    )
-                    .map((movie) => {
-                        return (
-                            <Col
-                                key={movie.id}
-                                style={{ marginBottom: "1rem" }}
-                            >
-                                <MovieCard
-                                    id={movie.id}
-                                    title={movie.title}
-                                    description={movie.description}
-                                    imageUrl={movie.imageUrl}
-                                    genre={movie.genre}
-                                />
-                            </Col>
-                        );
-                    })}
+                {movies.map((movie) => {
+                    return (
+                        <Col key={movie.id} style={{ marginBottom: "1rem" }}>
+                            <MovieCard
+                                id={movie.id}
+                                title={movie.title}
+                                description={movie.description}
+                                imageUrl={movie.imageUrl}
+                                genre={movie.genre}
+                            />
+                        </Col>
+                    );
+                })}
             </>
         );
 };
