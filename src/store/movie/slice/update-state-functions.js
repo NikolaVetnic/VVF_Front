@@ -17,3 +17,8 @@ export const putFavoritesByUser = (state, action) => ({
     ...state,
     favoritesByUser: action.payload,
 });
+
+export const putBestMovies = (state, action) => ({
+    ...state,
+    bestMovies: action.payload,
+});

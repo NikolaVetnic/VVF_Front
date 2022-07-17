@@ -12,6 +12,7 @@ const ENDPOINTS = {
     ADD_TO_FAVORITES: "api/favorites/store",
     REMOVE_FROM_FAVORITES: "api/favorites/destroy",
     UPDATE_FAVORITE: "api/favorites/update",
+    BEST: "api/movies/best",
 };
 
 class MovieService extends HttpBaseClient {
@@ -140,6 +141,14 @@ class MovieService extends HttpBaseClient {
             .then((response) => {
                 return response.data;
             });
+    };
+
+    getBestMovies = async () => {
+        const movies = this.getApiClient()
+            .get(ENDPOINTS.BEST)
+            .then((response) => response.data);
+
+        return movies;
     };
 }
 

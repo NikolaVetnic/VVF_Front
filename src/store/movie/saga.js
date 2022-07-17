@@ -6,6 +6,7 @@ import {
     ADD_TO_FAVORITES,
     CREATE_MOVIE,
     FAVORITES_BY_USER,
+    GET_BEST_MOVIES,
     GET_COMMENTS,
     GET_MOVIES,
     INC_NUM_VISITS,
@@ -16,6 +17,7 @@ import {
     UPDATE_FAVORITE,
 } from "./constants";
 import {
+    putBestMovies,
     putFavoritesByUser,
     putFetchedMovies,
     selectComments,
@@ -158,6 +160,16 @@ export function* updateFavoriteWatched() {
     }
 }
 
+export function* fetchBestMovies() {
+    try {
+        yield take(GET_BEST_MOVIES);
+        const data = yield call(movieService.getBestMovies);
+        yield put(putBestMovies(data));
+    } catch (error) {
+        console.log("fetchBestMovies() : Error occurred");
+    }
+}
+
 const movieSagas = [
     storeMovie,
     fetchMovies,
@@ -170,6 +182,7 @@ const movieSagas = [
     storeFavorite,
     destroyFavorites,
     updateFavoriteWatched,
+    fetchBestMovies,
 ];
 
 export default movieSagas;

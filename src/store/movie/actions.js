@@ -2,6 +2,7 @@ import {
     ADD_TO_FAVORITES,
     CREATE_MOVIE,
     FAVORITES_BY_USER,
+    GET_BEST_MOVIES,
     GET_COMMENTS,
     GET_MOVIES,
     INC_NUM_VISITS,
@@ -63,5 +64,10 @@ export const removeFromFavorites = (payload) => ({
 
 export const updateFavorite = (payload) => ({
     type: UPDATE_FAVORITE,
+    payload,
+});
+
+export const getBestMovies = (payload) => ({
+    type: GET_BEST_MOVIES,
     payload,
 });

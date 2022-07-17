@@ -6,3 +6,4 @@ export const selectedCommentsSelector = (state) =>
     state[reducer].selectedComments;
 export const favoritesByUserSelector = (state) =>
     state[reducer].favoritesByUser;
+export const bestMoviesSelector = (state) => state[reducer].bestMovies;

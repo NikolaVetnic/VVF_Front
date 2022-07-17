@@ -30,7 +30,7 @@ export const MovieList = () => {
         dispatch(getFavoritesByUser(authenticatedUser.id));
 
         return () => clearTimeout(delayDebounceFn);
-    }, [inputValue]);
+    }, [authenticatedUser, dispatch, inputValue]);
 
     if (movies !== undefined) {
         return (
