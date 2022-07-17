@@ -19,7 +19,7 @@ export default function CreateCommentForm({ userId, movieId }) {
     const dispatch = useDispatch();
 
     const handleCreateComment = (values) => {
-        dispatch(postComment(values));
+        dispatch(postComment({ userId, movieId, content: values.content }));
     };
 
     return (
@@ -38,8 +38,6 @@ export default function CreateCommentForm({ userId, movieId }) {
                         });
                     }}
                     initialValues={{
-                        userId,
-                        movieId,
                         content: DEFAULT_COMMENT,
                     }}
                 >

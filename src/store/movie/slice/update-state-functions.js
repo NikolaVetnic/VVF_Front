@@ -22,3 +22,8 @@ export const putBestMovies = (state, action) => ({
     ...state,
     bestMovies: action.payload,
 });
+
+export const putRelatedMovies = (state, action) => ({
+    ...state,
+    relatedMovies: action.payload,
+});

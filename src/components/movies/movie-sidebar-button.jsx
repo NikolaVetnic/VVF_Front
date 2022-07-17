@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { incNumVisits, selectMovie } from "../../store/movie/actions";
 
-export const BestMoviesButton = ({ movie }) => {
+export const MovieSidebarButton = ({ movie }) => {
     const { id, title } = movie;
 
     const dispatch = useDispatch();

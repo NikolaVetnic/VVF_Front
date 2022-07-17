@@ -9,6 +9,7 @@ import {
     GET_BEST_MOVIES,
     GET_COMMENTS,
     GET_MOVIES,
+    GET_RELATED_MOVIES,
     INC_NUM_VISITS,
     POST_COMMENT,
     POST_REACTION,
@@ -20,6 +21,7 @@ import {
     putBestMovies,
     putFavoritesByUser,
     putFetchedMovies,
+    putRelatedMovies,
     selectComments,
     selectMovies,
 } from "./slice";
@@ -124,7 +126,6 @@ export function* storeFavorite() {
     try {
         const { payload } = yield take(ADD_TO_FAVORITES);
         yield call(movieService.createFavorite, payload);
-        console.log("storeFavorite() : Added to favorites");
 
         const { userId } = payload;
         const data = yield call(movieService.selectFavoritesByUser, userId);
@@ -170,6 +171,16 @@ export function* fetchBestMovies() {
     }
 }
 
+export function* fetchRelatedMovies() {
+    try {
+        const { payload } = yield take(GET_RELATED_MOVIES);
+        const data = yield call(movieService.getRelatedMovies, payload);
+        yield put(putRelatedMovies(data));
+    } catch (error) {
+        console.log("fetchRelatedMovies() : Error occurred");
+    }
+}
+
 const movieSagas = [
     storeMovie,
     fetchMovies,
@@ -183,6 +194,7 @@ const movieSagas = [
     destroyFavorites,
     updateFavoriteWatched,
     fetchBestMovies,
+    fetchRelatedMovies,
 ];
 
 export default movieSagas;

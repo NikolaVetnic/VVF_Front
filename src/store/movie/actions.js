@@ -5,6 +5,7 @@ import {
     GET_BEST_MOVIES,
     GET_COMMENTS,
     GET_MOVIES,
+    GET_RELATED_MOVIES,
     INC_NUM_VISITS,
     POST_COMMENT,
     POST_REACTION,
@@ -69,5 +70,10 @@ export const updateFavorite = (payload) => ({
 
 export const getBestMovies = (payload) => ({
     type: GET_BEST_MOVIES,
+    payload,
+});
+
+export const getRelatedMovies = (payload) => ({
+    type: GET_RELATED_MOVIES,
     payload,
 });

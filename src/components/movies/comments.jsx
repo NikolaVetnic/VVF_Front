@@ -21,7 +21,6 @@ export const Comments = () => {
 
     const handleLoadMore = () => {
         setCount(count + 1);
-        console.log("count : " + count);
     };
 
     if (comments !== undefined)
@@ -41,6 +40,7 @@ export const Comments = () => {
                         <CommentCard
                             key={comment.id}
                             user={comment.user}
+                            movie={selectedMovie.title}
                             content={comment.content}
                             date={comment.created_at}
                         />

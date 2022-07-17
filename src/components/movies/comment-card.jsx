@@ -1,11 +1,11 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-export const CommentCard = ({ content, user, date }) => {
+export const CommentCard = ({ content, user, movie, date }) => {
     return (
         <Card style={{ margin: "1rem" }}>
             <Card.Header>
-                {user.name} on {new Date(date).toLocaleString()}
+                {user.name} on {new Date(date).toLocaleString()} :: {movie}
             </Card.Header>
             <Card.Body>{content}</Card.Body>
         </Card>

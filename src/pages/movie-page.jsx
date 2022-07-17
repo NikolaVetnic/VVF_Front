@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Comments } from "../components/movies/comments";
 import { FavoriteDisplay } from "../components/movies/favorite-display";
+import MovieSidebar from "../components/movies/movie-sidebar";
 import { ReactionsDisplay } from "../components/movies/reactions-display";
 import { MOVIE_PAGE_COL } from "../constants";
-import { getComments } from "../store/movie/actions";
+import { getComments, getRelatedMovies } from "../store/movie/actions";
 import {
     favoritesByUserSelector,
+    relatedMoviesSelector,
     selectedMovieSelector,
 } from "../store/movie/selectors";
 
 export const MoviePage = () => {
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -25,15 +27,16 @@ export const MoviePage = () => {
     );
 
     const favoritesByUser = useSelector(favoritesByUserSelector);
+    const relatedMovies = useSelector(relatedMoviesSelector);
 
     useEffect(() => {
         dispatch(getComments(id));
-        setIsFavorite(
-            favoritesByUser
-                .map((favorite) => favorite.movie_id)
-                .filter((i) => i == id).length
-        );
-    }, [dispatch, favoritesByUser, id]);
+
+        // ostajao je zanr od prethodno pogledanog filma, tako da su 'related' naslovi pogresnog zanra
+        setTimeout(() => {
+            dispatch(getRelatedMovies(genre));
+        }, "100");
+    }, [dispatch, favoritesByUser, id, genre]);
 
     const paddingColumn = () => {
         return <Col xs={(12 - MOVIE_PAGE_COL) / 2}></Col>;
@@ -66,6 +69,16 @@ export const MoviePage = () => {
                         <hr />
                     </Row>
 
+                    <Row>
+                        <Button
+                            variant="primary"
+                            onClick={() => setShowSidebar(!showSidebar)}
+                        >
+                            Show Related Movies
+                        </Button>
+                        <hr />
+                    </Row>
+
                     <Row style={{ marginBottom: "1rem" }}>
                         <span>{`Movie viewed ${num_visits} time(s)`}</span>
                     </Row>
@@ -88,6 +101,17 @@ export const MoviePage = () => {
                 </Col>
                 {paddingColumn()}
             </Row>
+
+            {relatedMovies !== undefined ? (
+                <MovieSidebar
+                    show={showSidebar}
+                    setShow={setShowSidebar}
+                    title={"Show Related Movies"}
+                    movies={relatedMovies}
+                />
+            ) : (
+                <></>
+            )}
         </Container>
     );
 };

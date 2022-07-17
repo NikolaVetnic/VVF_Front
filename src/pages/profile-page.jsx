@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import BestMoviesSidebar from "../components/movies/best-movies-sidebar";
+import MovieSidebar from "../components/movies/movie-sidebar";
 import { MovieList } from "../components/movies/movie-list";
 import { userDataSelector } from "../store/auth/selectors";
 import { getBestMovies } from "../store/movie/actions";
@@ -38,9 +38,10 @@ const ProfilePage = () => {
             </Container>
 
             {bestMovies !== undefined ? (
-                <BestMoviesSidebar
+                <MovieSidebar
                     show={showSidebar}
                     setShow={setShowSidebar}
+                    title={"10 Best Liked Movies"}
                     movies={bestMovies}
                 />
             ) : (
