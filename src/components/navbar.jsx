@@ -8,6 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import authService from "../services/api/auth-service";
 import { putAuthenticatedUser } from "../store/auth/slice";
 import { tokenSelector } from "../store/auth/selectors";
+import { setModal } from "../store/modal/slice";
+import { INITIAL_MODAL_DATA } from "../constants";
+import {
+    putFetchedMovies,
+    selectMovie,
+    selectComments,
+    putFavorites,
+    putBestMovies,
+    putRelatedMovies,
+} from "../store/movie/slice";
 
 function NavbarComponent() {
     const dispatch = useDispatch();
@@ -16,6 +26,16 @@ function NavbarComponent() {
     const handleLogout = () => {
         authService.logout().then(() => {
             dispatch(putAuthenticatedUser({}));
+
+            dispatch(setModal({}));
+
+            dispatch(putFetchedMovies([]));
+            dispatch(selectMovie({}));
+            dispatch(putFavorites([]));
+            dispatch(selectComments([]));
+            dispatch(putBestMovies([]));
+            dispatch(putRelatedMovies([]));
+
             localStorage.clear();
         });
     };

@@ -25,12 +25,8 @@ export const MoviePage = () => {
 
     useEffect(() => {
         dispatch(getComments(id));
-
-        // ostajao je zanr od prethodno pogledanog filma, tako da su 'related' naslovi pogresnog zanra
-        setTimeout(() => {
-            dispatch(getRelatedMovies(genre));
-        }, "100");
-    }, [dispatch, id, genre]);
+        dispatch(getRelatedMovies(genre));
+    }, [id, genre]);
 
     return (
         <Container fluid className="w-100">

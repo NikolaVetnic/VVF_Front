@@ -35,7 +35,7 @@ export const Comments = () => {
                 movie_id={viewed.id}
             />
 
-            {comments.slice(0, count).map((comment) => {
+            {comments?.slice(0, count).map((comment) => {
                 return (
                     <CommentCard
                         key={comment.id}
@@ -47,7 +47,7 @@ export const Comments = () => {
                 );
             })}
 
-            {count < comments.length ? (
+            {count < comments?.length ? (
                 <Button
                     className="w-50 m-4"
                     variant="success"

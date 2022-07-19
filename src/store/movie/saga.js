@@ -23,7 +23,7 @@ import {
     putFetchedMovies,
     putRelatedMovies,
     selectComments,
-    selectMovies,
+    selectMovie,
 } from "./slice";
 
 export function* storeMovie() {
@@ -57,8 +57,12 @@ export function* fetchMovies() {
 export function* fetchMovie() {
     try {
         const { payload } = yield take(SELECT_MOVIE);
-        const data = yield call(movieService.viewMovie, payload);
-        yield put(selectMovies(data));
+        const data = yield call(movieService.viewMovie, payload.id);
+        yield put(selectMovie(data));
+
+        if (payload.hasOwnProperty("callback")) {
+            payload.callback();
+        }
     } catch (error) {
         console.log("displayMovie() : Error occurred");
     }
@@ -105,7 +109,7 @@ export function* storeReaction() {
         const { movie_id } = payload;
         const data = yield call(movieService.viewMovie, movie_id);
 
-        yield put(selectMovies(data));
+        yield put(selectMovie(data));
     } catch (error) {
         console.log("storeReaction() : Error occurred");
     }

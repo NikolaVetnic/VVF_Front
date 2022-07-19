@@ -27,23 +27,19 @@ export default function PaginatedItems({
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
         if (!!movies) {
-            setCurrentItems(
-                movies
-                    .filter((movie) =>
-                        searchTerm === ""
-                            ? true
-                            : movie.title
-                                  .toLowerCase()
-                                  .includes(searchTerm.toLowerCase())
-                    )
-                    .filter((movie) =>
-                        genreFilter === "all"
-                            ? true
-                            : movie.genre === genreFilter
-                    )
-                    .slice(itemOffset, endOffset)
-            );
-            setPageCount(Math.ceil(movies.length / itemsPerPage));
+            const visible = movies
+                .filter((movie) =>
+                    searchTerm === ""
+                        ? true
+                        : movie.title
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase())
+                )
+                .filter((movie) =>
+                    genreFilter === "all" ? true : movie.genre === genreFilter
+                );
+            setCurrentItems(visible.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(visible.length / itemsPerPage));
         }
     }, [genreFilter, itemOffset, itemsPerPage, movies, searchTerm]);
 
@@ -68,28 +64,37 @@ export default function PaginatedItems({
             <Container>
                 <Row>
                     {/* ovo cu najverovatnije skroz izbacivati pa nisam ni dirao */}
-                    <Col style={{ display: "flex", justifyContent: "center" }}>
-                        <ReactPaginate
-                            nextLabel="next >"
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={3}
-                            marginPagesDisplayed={2}
-                            pageCount={pageCount}
-                            previousLabel="< previous"
-                            pageClassName="page-item"
-                            pageLinkClassName="page-link"
-                            previousClassName="page-item"
-                            previousLinkClassName="page-link"
-                            nextClassName="page-item"
-                            nextLinkClassName="page-link"
-                            breakLabel="..."
-                            breakClassName="page-item"
-                            breakLinkClassName="page-link"
-                            containerClassName="pagination"
-                            activeClassName="active"
-                            renderOnZeroPageCount={null}
-                        />
-                    </Col>
+                    {pageCount > 1 ? (
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <ReactPaginate
+                                nextLabel="next >"
+                                onPageChange={handlePageClick}
+                                pageRangeDisplayed={3}
+                                marginPagesDisplayed={2}
+                                pageCount={pageCount}
+                                previousLabel="< previous"
+                                pageClassName="page-item"
+                                pageLinkClassName="page-link"
+                                previousClassName="page-item"
+                                previousLinkClassName="page-link"
+                                nextClassName="page-item"
+                                nextLinkClassName="page-link"
+                                breakLabel="..."
+                                breakClassName="page-item"
+                                breakLinkClassName="page-link"
+                                containerClassName="pagination"
+                                activeClassName="active"
+                                renderOnZeroPageCount={null}
+                            />
+                        </Col>
+                    ) : (
+                        <></>
+                    )}
                 </Row>
             </Container>
         </>

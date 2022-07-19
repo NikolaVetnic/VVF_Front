@@ -14,9 +14,13 @@ export const MovieCard = ({ movie }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        dispatch(viewMovie(id));
+        dispatch(
+            viewMovie({
+                id,
+                callback: () => navigate(`/movie/${id}`),
+            })
+        );
         dispatch(incNumVisits(id));
-        navigate(`/movie/${id}`);
     };
 
     return (
