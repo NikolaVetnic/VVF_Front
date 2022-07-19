@@ -9,13 +9,13 @@ const movieSlice = createSlice({
             ? JSON.parse(localStorage.getItem("viewed"))
             : {},
         comments: JSON.parse(localStorage.getItem("comments")),
-        favorites: JSON.parse(localStorage.getItem("viewed")),
+        favorites: JSON.parse(localStorage.getItem("favorites")),
         best: JSON.parse(localStorage.getItem("best")),
         related: JSON.parse(localStorage.getItem("related")),
     },
     reducers: {
         putFetchedMovies: updateStateFunctions.putFetchedMovies,
-        selectMovies: updateStateFunctions.selectMovies,
+        selectMovie: updateStateFunctions.selectMovies,
         selectComments: updateStateFunctions.selectComments,
         putFavorites: updateStateFunctions.putFavorites,
         putBestMovies: updateStateFunctions.putBestMovies,
@@ -27,7 +27,7 @@ const { actions, reducer: movieReducer } = movieSlice;
 
 export const {
     putFetchedMovies,
-    selectMovies,
+    selectMovie,
     selectComments,
     putFavorites,
     putBestMovies,
