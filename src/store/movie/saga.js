@@ -151,10 +151,6 @@ export function* updateFavoriteWatched() {
     try {
         const { payload } = yield take(UPDATE_FAVORITE);
         yield call(movieService.updateFavorite, payload);
-
-        // const { user_id } = payload;
-        // const data = yield call(movieService.selectFavorites, user_id);
-        // yield put(putFavorites(data));
     } catch (error) {
         console.log("updateFavoriteWatched() : Error occurred");
     }
