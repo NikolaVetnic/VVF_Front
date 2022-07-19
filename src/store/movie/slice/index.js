@@ -1,0 +1,36 @@
+import { createSlice } from "@reduxjs/toolkit";
+import * as updateStateFunctions from "./update-state-functions";
+
+const movieSlice = createSlice({
+    name: "movies",
+    initialState: {
+        movies: JSON.parse(localStorage.getItem("movies")),
+        viewed: !!JSON.parse(localStorage.getItem("viewed"))
+            ? JSON.parse(localStorage.getItem("viewed"))
+            : {},
+        comments: JSON.parse(localStorage.getItem("comments")),
+        favorites: JSON.parse(localStorage.getItem("viewed")),
+        best: JSON.parse(localStorage.getItem("best")),
+        related: JSON.parse(localStorage.getItem("related")),
+    },
+    reducers: {
+        putFetchedMovies: updateStateFunctions.putFetchedMovies,
+        selectMovies: updateStateFunctions.selectMovies,
+        selectComments: updateStateFunctions.selectComments,
+        putFavorites: updateStateFunctions.putFavorites,
+        putBestMovies: updateStateFunctions.putBestMovies,
+        putRelatedMovies: updateStateFunctions.putRelatedMovies,
+    },
+});
+
+const { actions, reducer: movieReducer } = movieSlice;
+
+export const {
+    putFetchedMovies,
+    selectMovies,
+    selectComments,
+    putFavorites,
+    putBestMovies,
+    putRelatedMovies,
+} = actions;
+export default movieReducer;

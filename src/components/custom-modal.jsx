@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function CustomModal({ data }) {
+    // da li ovde mogu da se iscupaju ove promenljive direktno u zaglavlju metoda?
     const { title, message, buttonCaption, onHide, ...rest } = data;
 
     const dispatch = useDispatch();

@@ -1,10 +1,12 @@
 import { call, put, take } from "redux-saga/effects";
+
 import authService from "../../services/api/auth-service";
 import { displayErrorModal } from "../../util/display-error-modal";
 import { loginModalDisplay } from "../modal/actions";
-import { setModal } from "../modal/slice";
-import { LOGIN, REGISTER, TEST } from "./constants";
 import { putAuthenticatedUser } from "./slice";
+import { setModal } from "../modal/slice";
+
+import { GET_USER, LOGIN, REGISTER, TEST } from "./constants";
 
 export function* testSaga() {
     while (true) {

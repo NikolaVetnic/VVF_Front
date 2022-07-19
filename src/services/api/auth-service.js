@@ -5,6 +5,7 @@ const ENDPOINTS = {
     LOGOUT: "api/auth/logout",
     REGISTER: "api/auth/register",
     USER_DATA: "/api/auth/me",
+    GET_USER: "/api/auth/user/",
 };
 
 class AuthService extends HttpBaseClient {
@@ -35,9 +36,7 @@ class AuthService extends HttpBaseClient {
         return responseData;
     };
 
-    register = async (registrationData) => {
-        const { name, email, password } = registrationData;
-
+    register = async ({ name, email, password }) => {
         const newUser = this.getApiClient()
             .post(ENDPOINTS.REGISTER, {
                 name,
@@ -45,6 +44,7 @@ class AuthService extends HttpBaseClient {
                 password,
             })
             .then((response) => response.data);
+
         return newUser;
     };
 
@@ -54,6 +54,10 @@ class AuthService extends HttpBaseClient {
 
     getUserData = () => {
         return this.getApiClient().get(ENDPOINTS.USER_DATA);
+    };
+
+    displayUser = (id) => {
+        return this.getApiClient().get(ENDPOINTS.GET_USER + id);
     };
 }
 
