@@ -47,7 +47,7 @@ export const Comments = () => {
                 );
             })}
 
-            {count < comments.length ? (
+            {count < comments?.length ? (
                 <Button
                     className="w-50 m-4"
                     variant="success"
