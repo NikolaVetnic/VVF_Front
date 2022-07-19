@@ -26,21 +26,25 @@ export default function PaginatedItems({
 
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
-        setCurrentItems(
-            movies
-                .filter((movie) =>
-                    searchTerm === ""
-                        ? true
-                        : movie.title
-                              .toLowerCase()
-                              .includes(searchTerm.toLowerCase())
-                )
-                .filter((movie) =>
-                    genreFilter === "all" ? true : movie.genre === genreFilter
-                )
-                .slice(itemOffset, endOffset)
-        );
-        setPageCount(Math.ceil(movies.length / itemsPerPage));
+        if (!!movies) {
+            setCurrentItems(
+                movies
+                    .filter((movie) =>
+                        searchTerm === ""
+                            ? true
+                            : movie.title
+                                  .toLowerCase()
+                                  .includes(searchTerm.toLowerCase())
+                    )
+                    .filter((movie) =>
+                        genreFilter === "all"
+                            ? true
+                            : movie.genre === genreFilter
+                    )
+                    .slice(itemOffset, endOffset)
+            );
+            setPageCount(Math.ceil(movies.length / itemsPerPage));
+        }
     }, [genreFilter, itemOffset, itemsPerPage, movies, searchTerm]);
 
     // Invoke when user click to request another page.
@@ -63,6 +67,7 @@ export default function PaginatedItems({
             <hr />
             <Container>
                 <Row>
+                    {/* ovo cu najverovatnije skroz izbacivati pa nisam ni dirao */}
                     <Col style={{ display: "flex", justifyContent: "center" }}>
                         <ReactPaginate
                             nextLabel="next >"

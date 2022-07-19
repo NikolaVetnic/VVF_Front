@@ -7,7 +7,7 @@ import PaginatedItems from "./paginated-items";
 import { userDataSelector } from "../../store/auth/selectors";
 
 import { MOVIE_GENRES } from "../../constants";
-import { getFavoritesByUser } from "../../store/movie/actions";
+import { getFavorites } from "../../store/movie/actions";
 
 const timeToWaitBeforeSearching = 750;
 
@@ -27,7 +27,7 @@ export const MovieList = () => {
             setSearchTerm(inputValue);
         }, timeToWaitBeforeSearching);
 
-        dispatch(getFavoritesByUser(authenticatedUser.id));
+        dispatch(getFavorites(authenticatedUser.id));
 
         return () => clearTimeout(delayDebounceFn);
     }, [authenticatedUser, dispatch, inputValue]);
@@ -36,7 +36,7 @@ export const MovieList = () => {
         return (
             <div>
                 <Row>
-                    <Col xs={9}>
+                    <Col>
                         <Form className="d-flex">
                             <Form.Control
                                 type="search"

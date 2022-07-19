@@ -53,12 +53,12 @@ export default function RegistrationForm() {
                         isSubmitting,
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
-                            <Container style={{ width: "50%" }}>
-                                <Row style={{ marginTop: "2rem" }}>
+                            <Container className="w-50">
+                                <Row className="mt-4">
                                     <h2>Register</h2>
                                 </Row>
 
-                                <Row style={{ marginTop: "2rem" }}>
+                                <Row className="mt-4">
                                     <CustomFormTextField
                                         label="Name"
                                         name="name"
@@ -66,7 +66,7 @@ export default function RegistrationForm() {
                                     />
                                 </Row>
 
-                                <Row style={{ marginTop: "1rem" }}>
+                                <Row className="mt-3">
                                     <CustomFormTextField
                                         label="Email"
                                         name="email"
@@ -74,7 +74,7 @@ export default function RegistrationForm() {
                                     />
                                 </Row>
 
-                                <Row style={{ marginTop: "1rem" }}>
+                                <Row className="mt-3">
                                     <CustomFormTextField
                                         label="Password"
                                         name="password"
@@ -85,16 +85,13 @@ export default function RegistrationForm() {
                                 <Row>
                                     <Col>
                                         <Button
+                                            className="m-5 w-50"
                                             disabled={!isValid || isSubmitting}
                                             variant="success"
                                             as="input"
                                             size="lg"
                                             type="submit"
                                             value="Register"
-                                            style={{
-                                                width: "10rem",
-                                                margin: "2rem",
-                                            }}
                                         />
                                     </Col>
                                 </Row>

@@ -7,10 +7,7 @@ import {
     removeFromFavorites,
     updateFavorite,
 } from "../../store/movie/actions";
-import {
-    favoritesByUserSelector,
-    selectedMovieSelector,
-} from "../../store/movie/selectors";
+import { favoritesSelector, viewedSelector } from "../../store/movie/selectors";
 
 export const FavoriteDisplay = () => {
     const [isFavorite, setIsFavorite] = useState(false);
@@ -18,37 +15,32 @@ export const FavoriteDisplay = () => {
 
     const dispatch = useDispatch();
 
-    const favoritesByUser = useSelector(favoritesByUserSelector);
-
     const authenticatedUser = useSelector(userDataSelector);
-    const selectedMovie = useSelector(selectedMovieSelector);
+    const viewed = useSelector(viewedSelector);
+    const favorites = useSelector(favoritesSelector);
 
     useEffect(() => {
         setIsFavorite(
-            favoritesByUser
+            favorites
                 .map((favorite) => favorite.movie_id)
-                .filter((i) => i === selectedMovie.id).length === 1
+                .filter((i) => i === viewed.id).length === 1
         );
         setIsWatched(
-            favoritesByUser
-                .filter((favorite) => favorite.movie_id === selectedMovie.id)
+            favorites
+                .filter((favorite) => favorite.movie_id === viewed.id)
                 .filter((favorite) => favorite.watched === 1).length === 1
         );
-    }, [favoritesByUser, selectedMovie]);
+    }, [favorites, viewed]);
 
     const handleAddToFavorites = () => {
         if (isFavorite) {
-            dispatch(
-                removeFromFavorites({
-                    userId: authenticatedUser.id,
-                    movieId: selectedMovie.id,
-                })
-            );
+            const { id } = favorites.find((fav) => fav.movie_id === viewed.id);
+            dispatch(removeFromFavorites(id));
         } else {
             dispatch(
                 addToFavorites({
-                    userId: authenticatedUser.id,
-                    movieId: selectedMovie.id,
+                    user_id: authenticatedUser.id,
+                    movie_id: viewed.id,
                     watched: false,
                 })
             );
@@ -56,12 +48,9 @@ export const FavoriteDisplay = () => {
     };
 
     const handleMarkAsWatched = () => {
-        dispatch(
-            updateFavorite({
-                userId: authenticatedUser.id,
-                movieId: selectedMovie.id,
-            })
-        );
+        const { id } = favorites.find((fav) => fav.movie_id === viewed.id);
+        dispatch(updateFavorite(id));
+        setIsWatched(!isWatched);
     };
 
     return (

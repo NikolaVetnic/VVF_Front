@@ -36,9 +36,7 @@ class AuthService extends HttpBaseClient {
         return responseData;
     };
 
-    register = async (registrationData) => {
-        const { name, email, password } = registrationData;
-
+    register = async ({ name, email, password }) => {
         const newUser = this.getApiClient()
             .post(ENDPOINTS.REGISTER, {
                 name,

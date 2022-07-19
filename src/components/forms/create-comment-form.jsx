@@ -15,15 +15,15 @@ const schema = yup.object({
         .required("Required"),
 });
 
-export default function CreateCommentForm({ userId, movieId }) {
+export default function CreateCommentForm({ user_id, movie_id }) {
     const dispatch = useDispatch();
 
     const handleCreateComment = (values) => {
-        dispatch(postComment({ userId, movieId, content: values.content }));
+        dispatch(postComment({ user_id, movie_id, content: values.content }));
     };
 
     return (
-        <Card style={{ margin: "1rem" }}>
+        <Card className="mt-3">
             <Card.Header>New Comment</Card.Header>
             <Card.Body>
                 <Formik
@@ -68,10 +68,7 @@ export default function CreateCommentForm({ userId, movieId }) {
                                             size="lg"
                                             type="submit"
                                             value="Post Comment"
-                                            style={{
-                                                width: "12rem",
-                                                marginTop: "1rem",
-                                            }}
+                                            className="mt-3"
                                         />
                                     </Col>
                                 </Row>

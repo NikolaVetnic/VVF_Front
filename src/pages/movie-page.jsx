@@ -8,11 +8,7 @@ import MovieSidebar from "../components/movies/movie-sidebar";
 import { ReactionsDisplay } from "../components/movies/reactions-display";
 import { MOVIE_PAGE_COL } from "../constants";
 import { getComments, getRelatedMovies } from "../store/movie/actions";
-import {
-    favoritesByUserSelector,
-    relatedMoviesSelector,
-    selectedMovieSelector,
-} from "../store/movie/selectors";
+import { relatedSelector, viewedSelector } from "../store/movie/selectors";
 
 export const MoviePage = () => {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -22,12 +18,10 @@ export const MoviePage = () => {
     // for future reference
     const { id } = useParams();
 
-    const { title, description, imageUrl, genre, num_visits } = useSelector(
-        selectedMovieSelector
-    );
+    const { title, description, image_url, genre, num_visits } =
+        useSelector(viewedSelector);
 
-    const favoritesByUser = useSelector(favoritesByUserSelector);
-    const relatedMovies = useSelector(relatedMoviesSelector);
+    const related = useSelector(relatedSelector);
 
     useEffect(() => {
         dispatch(getComments(id));
@@ -36,36 +30,31 @@ export const MoviePage = () => {
         setTimeout(() => {
             dispatch(getRelatedMovies(genre));
         }, "100");
-    }, [dispatch, favoritesByUser, id, genre]);
-
-    const paddingColumn = () => {
-        return <Col xs={(12 - MOVIE_PAGE_COL) / 2}></Col>;
-    };
+    }, [dispatch, id, genre]);
 
     return (
-        <Container>
-            <Row>
-                {paddingColumn()}
+        <Container fluid className="w-100">
+            <Row className="justify-content-md-center">
                 <Col xs={MOVIE_PAGE_COL}>
-                    <Row style={{ marginTop: "2rem" }}>
+                    <Row className="mt-4">
                         <h1>{title}</h1>
                     </Row>
 
-                    <Row style={{ marginTop: "1rem" }}>
-                        <img src={imageUrl} alt={title} />
+                    <Row className="mt-3">
+                        <img src={image_url} alt={title} />
                     </Row>
 
-                    <Row style={{ marginTop: "1rem" }}>
+                    <Row className="mt-3">
                         <h4>
                             <i>{genre}</i>
                         </h4>
                     </Row>
 
-                    <Row style={{ marginTop: "1rem" }}>
+                    <Row className="mt-3">
                         <span>{description}</span>
                     </Row>
 
-                    <Row style={{ marginTop: "1rem" }}>
+                    <Row className="mt-3">
                         <hr />
                     </Row>
 
@@ -79,35 +68,32 @@ export const MoviePage = () => {
                         <hr />
                     </Row>
 
-                    <Row style={{ marginBottom: "1rem" }}>
+                    <Row className="mt-3">
                         <span>{`Movie viewed ${num_visits} time(s)`}</span>
                     </Row>
 
-                    <Row style={{ marginBottom: "1rem" }}>
+                    <Row className="mt-3">
                         <ReactionsDisplay />
                     </Row>
 
-                    <Row>
+                    <Row className="mt-3">
                         <FavoriteDisplay />
                     </Row>
 
-                    <Row style={{ marginTop: "1rem" }}>
+                    <Row className="mt-3">
                         <hr />
                     </Row>
 
-                    <Row style={{ marginBottom: "2rem" }}>
-                        <Comments />
-                    </Row>
+                    <Comments />
                 </Col>
-                {paddingColumn()}
             </Row>
 
-            {relatedMovies !== undefined ? (
+            {related !== undefined ? (
                 <MovieSidebar
                     show={showSidebar}
                     setShow={setShowSidebar}
                     title={"Show Related Movies"}
-                    movies={relatedMovies}
+                    movies={related}
                 />
             ) : (
                 <></>

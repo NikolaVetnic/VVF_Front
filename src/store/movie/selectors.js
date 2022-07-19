@@ -1,10 +1,8 @@
 const reducer = "movie";
 
 export const moviesSelector = (state) => state[reducer].movies;
-export const selectedMovieSelector = (state) => state[reducer].selectedMovie;
-export const selectedCommentsSelector = (state) =>
-    state[reducer].selectedComments;
-export const favoritesByUserSelector = (state) =>
-    state[reducer].favoritesByUser;
-export const bestMoviesSelector = (state) => state[reducer].bestMovies;
-export const relatedMoviesSelector = (state) => state[reducer].relatedMovies;
+export const viewedSelector = (state) => state[reducer].viewed;
+export const commentsSelector = (state) => state[reducer].comments;
+export const favoritesSelector = (state) => state[reducer].favorites;
+export const bestSelector = (state) => state[reducer].best;
+export const relatedSelector = (state) => state[reducer].related;

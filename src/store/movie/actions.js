@@ -23,7 +23,7 @@ export const getMovies = () => ({
     type: GET_MOVIES,
 });
 
-export const selectMovie = (payload) => ({
+export const viewMovie = (payload) => ({
     type: SELECT_MOVIE,
     payload,
 });
@@ -48,7 +48,7 @@ export const postReaction = (payload) => ({
     payload,
 });
 
-export const getFavoritesByUser = (payload) => ({
+export const getFavorites = (payload) => ({
     type: FAVORITES_BY_USER,
     payload,
 });

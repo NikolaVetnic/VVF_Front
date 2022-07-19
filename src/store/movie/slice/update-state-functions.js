@@ -5,25 +5,25 @@ export const putFetchedMovies = (state, action) => ({
 
 export const selectMovies = (state, action) => ({
     ...state,
-    selectedMovie: action.payload,
+    viewed: action.payload,
 });
 
 export const selectComments = (state, action) => ({
     ...state,
-    selectedComments: action.payload,
+    comments: action.payload,
 });
 
-export const putFavoritesByUser = (state, action) => ({
+export const putFavorites = (state, action) => ({
     ...state,
-    favoritesByUser: action.payload,
+    favorites: action.payload,
 });
 
 export const putBestMovies = (state, action) => ({
     ...state,
-    bestMovies: action.payload,
+    best: action.payload,
 });
 
 export const putRelatedMovies = (state, action) => ({
     ...state,
-    relatedMovies: action.payload,
+    related: action.payload,
 });

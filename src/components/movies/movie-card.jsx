@@ -3,29 +3,33 @@ import { Button, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { incNumVisits, selectMovie } from "../../store/movie/actions";
+import { incNumVisits, viewMovie } from "../../store/movie/actions";
 
 const maxDescriptionLength = 150;
 
-export const MovieCard = (props) => {
+export const MovieCard = ({ movie }) => {
+    const { id, title, description, image_url, genre } = movie;
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { id, title, description, imageUrl, genre } = props;
-
     const handleClick = () => {
-        dispatch(selectMovie(id));
+        dispatch(viewMovie(id));
         dispatch(incNumVisits(id));
         navigate(`/movie/${id}`);
     };
 
     return (
-        <Card style={{ width: "17rem" }}>
-            <Card.Img
-                variant="top"
-                src={imageUrl}
-                style={{ width: "100%", height: "24rem" }}
-            />
+        <Card className="w-100">
+            {/* ovde ne znam kako da preko Bootstrap klase zadam fiksnu visinu */}
+            <Button variant="dark" onClick={handleClick}>
+                <Card.Img
+                    className="w-100"
+                    variant="top"
+                    src={image_url}
+                    style={{ height: "24rem" }}
+                />
+            </Button>
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <Card.Subtitle>{genre}</Card.Subtitle>

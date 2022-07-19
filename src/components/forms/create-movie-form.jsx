@@ -10,7 +10,7 @@ import CustomFormDropdown from "../custom-form-elements/custom-form-dropdown";
 import {
     DEFAULT_MOVIE_TITLE,
     DEFAULT_MOVIE_DESCRIPTION,
-    DEFAULT_MOVIE_IMAGEURL,
+    DEFAULT_MOVIE_IMAGE_URL,
     URL_REGEX,
     MOVIE_GENRES,
 } from "../../constants";
@@ -27,7 +27,7 @@ const schema = yup.object({
         .min(20, "Description cannot be shorter than 20 character")
         .max(250, "Description cannot be longer than 250 characters")
         .required("Required"),
-    imageUrl: yup
+    image_url: yup
         .string()
         .matches(URL_REGEX, "Enter a valid url")
         .required("Required"),
@@ -53,7 +53,7 @@ export default function CreateMovieForm() {
                     initialValues={{
                         title: DEFAULT_MOVIE_TITLE,
                         description: DEFAULT_MOVIE_DESCRIPTION,
-                        imageUrl: DEFAULT_MOVIE_IMAGEURL,
+                        image_url: DEFAULT_MOVIE_IMAGE_URL,
                     }}
                 >
                     {({
@@ -65,12 +65,12 @@ export default function CreateMovieForm() {
                         isSubmitting,
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
-                            <Container style={{ width: "50%" }}>
-                                <Row style={{ marginTop: "2rem" }}>
+                            <Container className="w-75">
+                                <Row className="mt-5">
                                     <h2>Create Movie</h2>
                                 </Row>
 
-                                <Row style={{ marginTop: "2rem" }}>
+                                <Row className="mt-4">
                                     <CustomFormTextField
                                         label="Title"
                                         name="title"
@@ -78,22 +78,22 @@ export default function CreateMovieForm() {
                                     />
                                 </Row>
 
-                                <Row style={{ marginTop: "2rem" }}>
+                                <Row className="mt-4">
                                     <CustomFormTextArea
                                         label="Description"
                                         name="description"
                                     />
                                 </Row>
 
-                                <Row style={{ marginTop: "1rem" }}>
+                                <Row className="mt-4">
                                     <CustomFormTextField
                                         label="Image URL"
-                                        name="imageUrl"
+                                        name="image_url"
                                         type="text"
                                     />
                                 </Row>
 
-                                <Row style={{ marginTop: "1rem" }}>
+                                <Row className="mt-4">
                                     <CustomFormDropdown
                                         label="Genre"
                                         name="genre"
@@ -105,16 +105,13 @@ export default function CreateMovieForm() {
                                 <Row>
                                     <Col>
                                         <Button
+                                            className="mt-5 mb-5 w-50"
                                             disabled={!isValid || isSubmitting}
                                             variant="success"
                                             as="input"
                                             size="lg"
                                             type="submit"
                                             value="Create Movie"
-                                            style={{
-                                                width: "10rem",
-                                                margin: "2rem",
-                                            }}
                                         />
                                     </Col>
                                 </Row>

@@ -17,147 +17,90 @@ const ENDPOINTS = {
 };
 
 class MovieService extends HttpBaseClient {
-    createMovie = async (movieData) => {
-        const { title, description, imageUrl, genre } = movieData;
-
-        const newMovie = this.getApiClient()
-            .post(ENDPOINTS.CREATE, {
-                title,
-                description,
-                imageUrl,
-                genre,
-            })
-            .then((response) => {
-                return response.data;
-            });
-
-        return newMovie;
+    createMovie = async ({ title, description, image_url, genre }) => {
+        const { data } = await this.getApiClient().post(ENDPOINTS.CREATE, {
+            title,
+            description,
+            image_url,
+            genre,
+        });
+        return data;
     };
 
     getMovies = async () => {
-        const movies = this.getApiClient()
-            .get(ENDPOINTS.INDEX)
-            .then((response) => response.data);
-
-        return movies;
+        const { data } = await this.getApiClient().get(ENDPOINTS.INDEX);
+        localStorage.setItem("movies", JSON.stringify(data));
+        return data;
     };
 
-    selectMovie = async (id) => {
-        const movie = await this.getApiClient()
-            .get(ENDPOINTS.SHOW + id)
-            .then((response) => response.data);
-
-        localStorage.setItem("selectedMovieId", movie.id);
-        localStorage.setItem("selectedMovieTitle", movie.title);
-        localStorage.setItem("selectedMovieDescription", movie.description);
-        localStorage.setItem("selectedMovieImageUrl", movie.imageUrl);
-        localStorage.setItem("selectedMovieGenre", movie.genre);
-        localStorage.setItem("selectedMovieLikes", movie.likes);
-        localStorage.setItem("selectedMovieDislikes", movie.dislikes);
-
-        return movie;
+    viewMovie = async (id) => {
+        const { data } = await this.getApiClient().get(ENDPOINTS.SHOW + id);
+        localStorage.setItem("viewed", JSON.stringify(data));
+        return data;
     };
 
-    incrementNumVisits = async (id) => {
-        const movie = await this.getApiClient()
-            .post(ENDPOINTS.INC_NUM_VISITS + id)
-            .then((response) => response.data);
-
-        localStorage.setItem("selectedMovieVisits", movie.numVisited);
-
-        return movie;
+    incNumVisits = async (id) => {
+        await this.getApiClient().post(ENDPOINTS.INC_NUM_VISITS + id);
     };
 
     selectComments = async (id) => {
-        const comments = await this.getApiClient()
-            .get(ENDPOINTS.COMMENTS + id)
-            .then((response) => response.data);
-
-        return comments;
+        const { data } = await this.getApiClient().get(ENDPOINTS.COMMENTS + id);
+        localStorage.setItem("comments", JSON.stringify(data));
+        return data;
     };
 
-    createComment = async ({ userId, movieId, content }) => {
-        const newComment = this.getApiClient()
-            .post(ENDPOINTS.CREATE_COMMENT, {
-                userId,
-                movieId,
-                content,
-            })
-            .then((response) => {
-                return response.data;
-            });
-
-        return newComment;
+    createComment = async ({ user_id, movie_id, content }) => {
+        this.getApiClient().post(ENDPOINTS.CREATE_COMMENT, {
+            user_id,
+            movie_id,
+            content,
+        });
     };
 
-    createReaction = async ({ userId, movieId, reaction }) => {
-        this.getApiClient()
-            .post(ENDPOINTS.POST_REACTION, {
-                userId,
-                movieId,
-                reaction,
-            })
-            .then((response) => {
-                return response.data;
-            });
+    createReaction = async ({ user_id, movie_id, reaction }) => {
+        this.getApiClient().post(ENDPOINTS.POST_REACTION, {
+            user_id,
+            movie_id,
+            reaction,
+        });
     };
 
-    selectFavoritesByUser = async (id) => {
-        const favorites = await this.getApiClient()
-            .get(ENDPOINTS.FAVORITES_BY_USER + id)
-            .then((response) => response.data);
-
-        return favorites;
+    selectFavorites = async (id) => {
+        const { data } = await this.getApiClient().get(
+            ENDPOINTS.FAVORITES_BY_USER + id
+        );
+        localStorage.setItem("favorites", JSON.stringify(data));
+        return data;
     };
 
-    createFavorite = async ({ userId, movieId, watched }) => {
-        this.getApiClient()
-            .post(ENDPOINTS.ADD_TO_FAVORITES, {
-                userId,
-                movieId,
-                watched,
-            })
-            .then((response) => {
-                return response.data;
-            });
+    createFavorite = async ({ user_id, movie_id, watched }) => {
+        await this.getApiClient().post(ENDPOINTS.ADD_TO_FAVORITES, {
+            user_id,
+            movie_id,
+            watched,
+        });
     };
 
-    destroyFavorite = async ({ userId, movieId }) => {
-        this.getApiClient()
-            .post(ENDPOINTS.REMOVE_FROM_FAVORITES, {
-                userId,
-                movieId,
-            })
-            .then((response) => {
-                return response.data;
-            });
+    destroyFavorite = async (id) => {
+        await this.getApiClient().post(ENDPOINTS.REMOVE_FROM_FAVORITES, { id });
     };
 
-    updateFavorite = async ({ userId, movieId }) => {
-        this.getApiClient()
-            .put(ENDPOINTS.UPDATE_FAVORITE, {
-                userId,
-                movieId,
-            })
-            .then((response) => {
-                return response.data;
-            });
+    updateFavorite = async (id) => {
+        await this.getApiClient().put(ENDPOINTS.UPDATE_FAVORITE, { id });
     };
 
     getBestMovies = async () => {
-        const movies = this.getApiClient()
-            .get(ENDPOINTS.BEST)
-            .then((response) => response.data);
-
-        return movies;
+        const { data } = await this.getApiClient().get(ENDPOINTS.BEST);
+        localStorage.setItem("best", JSON.stringify(data));
+        return data;
     };
 
     getRelatedMovies = async (genre) => {
-        const movies = this.getApiClient()
-            .get(ENDPOINTS.RELATED + genre)
-            .then((response) => response.data);
-
-        return movies;
+        const { data } = await this.getApiClient().get(
+            ENDPOINTS.RELATED + genre
+        );
+        localStorage.setItem("related", JSON.stringify(data));
+        return data;
     };
 }
 

@@ -1,69 +1,65 @@
 import React, { useState } from "react";
-import { Button, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { CommentCard } from "./comment-card";
 
-import {
-    selectedCommentsSelector,
-    selectedMovieSelector,
-} from "../../store/movie/selectors";
+import { commentsSelector, viewedSelector } from "../../store/movie/selectors";
 import CreateCommentForm from "../forms/create-comment-form";
 import { userDataSelector } from "../../store/auth/selectors";
+import {
+    DEFAULT_COMMENT_DISPLAY_INC,
+    DEFAULT_STARTING_COMMENT_DISPLAY_NUM,
+} from "../../constants";
 
 export const Comments = () => {
-    const comments = useSelector(selectedCommentsSelector);
+    const comments = useSelector(commentsSelector);
 
     const authenticatedUser = useSelector(userDataSelector);
-    const selectedMovie = useSelector(selectedMovieSelector);
+    const viewed = useSelector(viewedSelector);
 
-    const startingCount = 1;
+    const startingCount = DEFAULT_STARTING_COMMENT_DISPLAY_NUM;
     const [count, setCount] = useState(startingCount);
 
     const handleLoadMore = () => {
-        setCount(count + 1);
+        setCount(count + DEFAULT_COMMENT_DISPLAY_INC);
     };
 
-    if (comments !== undefined)
-        return (
-            <Container>
-                <Row>
-                    <h3>Comments</h3>
-                </Row>
+    return (
+        <Container className="justify-content-md-center">
+            <Row>
+                <h3>Comments</h3>
+            </Row>
 
-                <CreateCommentForm
-                    userId={authenticatedUser.id}
-                    movieId={selectedMovie.id}
-                />
+            <CreateCommentForm
+                user_id={authenticatedUser.id}
+                movie_id={viewed.id}
+            />
 
-                {comments.slice(0, count).map((comment) => {
-                    return (
-                        <CommentCard
-                            key={comment.id}
-                            user={comment.user}
-                            movie={selectedMovie.title}
-                            content={comment.content}
-                            date={comment.created_at}
-                        />
-                    );
-                })}
-
-                {count < comments.length ? (
-                    <Button
-                        variant="success"
-                        as="input"
-                        size="lg"
-                        type="button"
-                        onClick={handleLoadMore}
-                        value={`Load ${startingCount} More`}
-                        style={{
-                            width: "12rem",
-                            marginTop: "1rem",
-                        }}
+            {comments.slice(0, count).map((comment) => {
+                return (
+                    <CommentCard
+                        key={comment.id}
+                        user={comment.user}
+                        movie={viewed.title}
+                        content={comment.content}
+                        date={comment.created_at}
                     />
-                ) : (
-                    <></>
-                )}
-            </Container>
-        );
-    else return <Container>AA</Container>;
+                );
+            })}
+
+            {count < comments.length ? (
+                <Button
+                    className="w-50 m-4"
+                    variant="success"
+                    as="input"
+                    size="lg"
+                    type="button"
+                    onClick={handleLoadMore}
+                    value={`Load ${DEFAULT_COMMENT_DISPLAY_INC} More`}
+                />
+            ) : (
+                <></>
+            )}
+        </Container>
+    );
 };

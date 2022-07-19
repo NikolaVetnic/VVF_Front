@@ -22,9 +22,7 @@ export default function LoginForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleLogin = (values) => {
-        const { email, password } = values;
-
+    const handleLogin = ({ email, password }) => {
         dispatch(
             login({
                 email,
@@ -57,12 +55,12 @@ export default function LoginForm() {
                         isSubmitting,
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
-                            <Container style={{ width: "50%" }}>
-                                <Row style={{ marginTop: "2rem" }}>
+                            <Container className="w-50">
+                                <Row className="mt-4">
                                     <h2>Login</h2>
                                 </Row>
 
-                                <Row style={{ marginTop: "2rem" }}>
+                                <Row className="mt-4">
                                     <CustomFormTextField
                                         label="Email"
                                         name="email"
@@ -70,7 +68,7 @@ export default function LoginForm() {
                                     />
                                 </Row>
 
-                                <Row style={{ marginTop: "1rem" }}>
+                                <Row className="mt-3">
                                     <CustomFormTextField
                                         label="Password"
                                         name="password"
@@ -81,16 +79,13 @@ export default function LoginForm() {
                                 <Row>
                                     <Col>
                                         <Button
+                                            className="w-50 m-4"
                                             disabled={!isValid || isSubmitting}
                                             variant="success"
                                             as="input"
                                             size="lg"
                                             type="submit"
                                             value="Login"
-                                            style={{
-                                                width: "10rem",
-                                                margin: "2rem",
-                                            }}
                                         />
                                     </Col>
                                 </Row>

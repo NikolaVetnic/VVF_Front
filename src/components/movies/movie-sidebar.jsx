@@ -10,9 +10,13 @@ const MovieSidebar = ({ show, setShow, title, movies }) => {
                     <Offcanvas.Title>{title}</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    {movies.map((movie) => (
-                        <MovieSidebarButton key={movie.id} movie={movie} />
-                    ))}
+                    {!!movies ? (
+                        movies.map((movie) => (
+                            <MovieSidebarButton key={movie.id} movie={movie} />
+                        ))
+                    ) : (
+                        <></>
+                    )}
                 </Offcanvas.Body>
             </Offcanvas>
         </>
