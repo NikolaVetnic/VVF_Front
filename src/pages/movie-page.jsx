@@ -26,7 +26,7 @@ export const MoviePage = () => {
     useEffect(() => {
         dispatch(getComments(id));
         dispatch(getRelatedMovies(genre));
-    }, [dispatch, id, genre]);
+    }, [id, genre]);
 
     return (
         <Container fluid className="w-100">
