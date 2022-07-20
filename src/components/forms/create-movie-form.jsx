@@ -51,6 +51,18 @@ export default function CreateMovieForm() {
         dispatch(createMovie({ ...values }));
     };
 
+    const handleFetchFromOMDB = async (setFieldValue) => {
+        const searchQuery = formRef.current.values.title
+            .replace(" ", "+")
+            .toLowerCase();
+        await movieService.getDataFromOMDB(searchQuery).then((data) => {
+            console.log(data);
+            setFieldValue("title", data.Title);
+            setFieldValue("description", data.Plot);
+            setFieldValue("image_url", data.Poster);
+        });
+    };
+
     return (
         <Row>
             <Col>
@@ -134,31 +146,11 @@ export default function CreateMovieForm() {
                                             size="lg"
                                             type="button"
                                             value="Populate from OMDB"
-                                            onClick={async () => {
-                                                const searchQuery =
-                                                    formRef.current.values.title
-                                                        .replace(" ", "+")
-                                                        .toLowerCase();
-                                                await movieService
-                                                    .getDataFromOMDB(
-                                                        searchQuery
-                                                    )
-                                                    .then((data) => {
-                                                        console.log(data);
-                                                        setFieldValue(
-                                                            "title",
-                                                            data.Title
-                                                        );
-                                                        setFieldValue(
-                                                            "description",
-                                                            data.Plot
-                                                        );
-                                                        setFieldValue(
-                                                            "image_url",
-                                                            data.Poster
-                                                        );
-                                                    });
-                                            }}
+                                            onClick={() =>
+                                                handleFetchFromOMDB(
+                                                    setFieldValue
+                                                )
+                                            }
                                         />
                                     </Col>
                                 </Row>
