@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Dropdown, Form, Row } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import { moviesSelector } from "../../store/movie/selectors";
@@ -7,7 +7,10 @@ import PaginatedItems from "./paginated-items";
 import { userDataSelector } from "../../store/auth/selectors";
 
 import { MOVIE_GENRES } from "../../constants";
-import { getFavorites } from "../../store/movie/actions";
+import {
+    getElasticSearchResults,
+    getFavorites,
+} from "../../store/movie/actions";
 
 const timeToWaitBeforeSearching = 750;
 
@@ -20,6 +23,8 @@ export const MovieList = () => {
     const [inputValue, setInputValue] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
 
+    const [inputElasticValue, setInputElasticValue] = useState("");
+
     const [genreFilter, setGenreFilter] = useState("all");
 
     useEffect(() => {
@@ -30,7 +35,12 @@ export const MovieList = () => {
         dispatch(getFavorites(authenticatedUser.id));
 
         return () => clearTimeout(delayDebounceFn);
-    }, [authenticatedUser, dispatch, inputValue]);
+    }, [authenticatedUser, dispatch, inputValue, inputElasticValue]);
+
+    const handleElasticSearch = () => {
+        console.log(inputElasticValue);
+        dispatch(getElasticSearchResults(inputElasticValue));
+    };
 
     if (movies !== undefined) {
         return (
@@ -84,6 +94,29 @@ export const MovieList = () => {
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form className="d-flex">
+                            <Form.Control
+                                type="search"
+                                placeholder="Search movies by title (ElasticSearch)"
+                                className="me-2"
+                                aria-label="Elastic Search"
+                                value={inputElasticValue}
+                                onChange={(e) =>
+                                    setInputElasticValue(e.target.value)
+                                }
+                            />
+                            <Button
+                                variant="primary"
+                                as="input"
+                                type="button"
+                                value="Elastic Search"
+                                onClick={() => handleElasticSearch()}
+                            />
+                        </Form>
                     </Col>
                 </Row>
                 <hr />
