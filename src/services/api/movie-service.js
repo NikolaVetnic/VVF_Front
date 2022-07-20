@@ -20,7 +20,7 @@ const ENDPOINTS = {
     UPDATE_FAVORITE: "api/favorites/update",
     BEST: "api/movies/best",
     RELATED: "api/movies/genre/",
-    ELASTIC_SEARCH: "api/movies/index/",
+    ELASTIC_SEARCH: "api/movies/index?term=",
 };
 
 class MovieService extends HttpBaseClient {
