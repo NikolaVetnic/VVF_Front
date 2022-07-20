@@ -20,6 +20,7 @@ const ENDPOINTS = {
     UPDATE_FAVORITE: "api/favorites/update",
     BEST: "api/movies/best",
     RELATED: "api/movies/genre/",
+    ELASTIC_SEARCH: "api/movies/index/",
 };
 
 class MovieService extends HttpBaseClient {
@@ -112,6 +113,14 @@ class MovieService extends HttpBaseClient {
     getDataFromOMDB = async (searchQuery) => {
         const url = `${CORS_ANYWHERE_API}${OMDB_API_BASE_URL}?t=${searchQuery}&apikey=${OMDB_API_KEY}`;
         const { data } = await this.getApiClient().get(url);
+        return data;
+    };
+
+    getElasticSearchResults = async (searchTerm) => {
+        const { data } = await this.getApiClient().get(
+            `${ENDPOINTS.ELASTIC_SEARCH}${searchTerm}`
+        );
+        localStorage.setItem("movies", JSON.stringify(data));
         return data;
     };
 }

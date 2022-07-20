@@ -4,6 +4,7 @@ import {
     FAVORITES_BY_USER,
     GET_BEST_MOVIES,
     GET_COMMENTS,
+    GET_ELASTIC_SEARCH_RESULTS,
     GET_MOVIES,
     GET_RELATED_MOVIES,
     INC_NUM_VISITS,
@@ -75,5 +76,10 @@ export const getBestMovies = (payload) => ({
 
 export const getRelatedMovies = (payload) => ({
     type: GET_RELATED_MOVIES,
+    payload,
+});
+
+export const getElasticSearchResults = (payload) => ({
+    type: GET_ELASTIC_SEARCH_RESULTS,
     payload,
 });

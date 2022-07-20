@@ -8,6 +8,7 @@ import {
     FAVORITES_BY_USER,
     GET_BEST_MOVIES,
     GET_COMMENTS,
+    GET_ELASTIC_SEARCH_RESULTS,
     GET_MOVIES,
     GET_RELATED_MOVIES,
     INC_NUM_VISITS,
@@ -180,6 +181,17 @@ export function* fetchRelatedMovies() {
     }
 }
 
+export function* fetchElasticSearchResults() {
+    try {
+        const { payload } = yield take(GET_ELASTIC_SEARCH_RESULTS);
+        console.log(payload);
+        const data = yield call(movieService.getElasticSearchResults, payload);
+        yield put(putFetchedMovies(data));
+    } catch (error) {
+        console.log("fetchElasticSearchResults() : Error occurred");
+    }
+}
+
 const movieSagas = [
     storeMovie,
     fetchMovies,
@@ -194,6 +206,7 @@ const movieSagas = [
     updateFavoriteWatched,
     fetchBestMovies,
     fetchRelatedMovies,
+    fetchElasticSearchResults,
 ];
 
 export default movieSagas;
