@@ -1,5 +1,11 @@
 import HttpBaseClient from "../http-base-client";
 
+import {
+    OMDB_API_BASE_URL,
+    OMDB_API_KEY,
+    CORS_ANYWHERE_API,
+} from "../../constants/api";
+
 const ENDPOINTS = {
     CREATE: "api/movies/store",
     INDEX: "api/movies/index",
@@ -100,6 +106,12 @@ class MovieService extends HttpBaseClient {
             ENDPOINTS.RELATED + genre
         );
         localStorage.setItem("related", JSON.stringify(data));
+        return data;
+    };
+
+    getDataFromOMDB = async (searchQuery) => {
+        const url = `${CORS_ANYWHERE_API}${OMDB_API_BASE_URL}?t=${searchQuery}&apikey=${OMDB_API_KEY}`;
+        const { data } = await this.getApiClient().get(url);
         return data;
     };
 }
