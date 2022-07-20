@@ -1,4 +1,10 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
+import {
+    Button,
+    Col,
+    Container,
+    PlaceholderButton,
+    Row,
+} from "react-bootstrap";
 import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
@@ -15,6 +21,9 @@ import {
     MOVIE_GENRES,
 } from "../../constants";
 import { createMovie } from "../../store/movie/actions";
+import { useRef, useState } from "react";
+import { OMDB_API_BASE_URL, OMDB_API_KEY } from "../../constants/api";
+import movieService from "../../services/api/movie-service";
 
 const schema = yup.object({
     title: yup
@@ -36,9 +45,22 @@ const schema = yup.object({
 
 export default function CreateMovieForm() {
     const dispatch = useDispatch();
+    const formRef = useRef();
 
     const handleCreateMovie = (values) => {
         dispatch(createMovie({ ...values }));
+    };
+
+    const handleFetchFromOMDB = async (setFieldValue) => {
+        const searchQuery = formRef.current.values.title
+            .replace(" ", "+")
+            .toLowerCase();
+        await movieService.getDataFromOMDB(searchQuery).then((data) => {
+            console.log(data);
+            setFieldValue("title", data.Title);
+            setFieldValue("description", data.Plot);
+            setFieldValue("image_url", data.Poster);
+        });
     };
 
     return (
@@ -48,13 +70,14 @@ export default function CreateMovieForm() {
                     validationSchema={schema}
                     onSubmit={(values, actions) => {
                         handleCreateMovie(values);
-                        // actions.setSubmitting(false);
+                        actions.setSubmitting(false);
                     }}
                     initialValues={{
                         title: DEFAULT_MOVIE_TITLE,
                         description: DEFAULT_MOVIE_DESCRIPTION,
                         image_url: DEFAULT_MOVIE_IMAGE_URL,
                     }}
+                    innerRef={formRef}
                 >
                     {({
                         handleSubmit,
@@ -63,6 +86,7 @@ export default function CreateMovieForm() {
                         errors,
                         isValid,
                         isSubmitting,
+                        setFieldValue,
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
                             <Container className="w-75">
@@ -105,13 +129,28 @@ export default function CreateMovieForm() {
                                 <Row>
                                     <Col>
                                         <Button
-                                            className="mt-5 mb-5 w-50"
+                                            className="mt-5 mb-5 w-75"
                                             disabled={!isValid || isSubmitting}
                                             variant="success"
                                             as="input"
                                             size="lg"
                                             type="submit"
                                             value="Create Movie"
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Button
+                                            className="mt-5 mb-5 w-75"
+                                            variant="primary"
+                                            as="input"
+                                            size="lg"
+                                            type="button"
+                                            value="Populate from OMDB"
+                                            onClick={() =>
+                                                handleFetchFromOMDB(
+                                                    setFieldValue
+                                                )
+                                            }
                                         />
                                     </Col>
                                 </Row>
