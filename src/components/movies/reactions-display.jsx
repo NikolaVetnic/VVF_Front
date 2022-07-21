@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { userDataSelector } from "../../store/auth/selectors";
 import { postReaction } from "../../store/movie/actions";
@@ -7,6 +8,8 @@ import { viewedSelector } from "../../store/movie/selectors";
 
 export const ReactionsDisplay = () => {
     const dispatch = useDispatch();
+
+    // const socket = io.connect("http://127.0.0.1:6379");
 
     const { id: user_id } = useSelector(userDataSelector);
     const { id: movie_id, likes, dislikes } = useSelector(viewedSelector);
@@ -19,6 +22,7 @@ export const ReactionsDisplay = () => {
                 reaction: "like",
             })
         );
+        // socket.emit("like", { message: "Hello" });
     };
 
     const handleDislike = () => {
