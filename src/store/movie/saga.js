@@ -41,7 +41,8 @@ export function* storeMovie() {
             })
         );
     } catch (error) {
-        console.log("storeMovie() : Error occurred");
+        // console.log("storeMovie() : Error occurred");
+        console.log(error);
     }
 }
 

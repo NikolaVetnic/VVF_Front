@@ -19,6 +19,7 @@ import {
     DEFAULT_MOVIE_IMAGE_URL,
     URL_REGEX,
     MOVIE_GENRES,
+    DEFAULT_MOVIE_ADMIN,
 } from "../../constants";
 import { createMovie } from "../../store/movie/actions";
 import { useRef, useState } from "react";
@@ -48,7 +49,7 @@ export default function CreateMovieForm() {
     const formRef = useRef();
 
     const handleCreateMovie = (values) => {
-        dispatch(createMovie({ ...values }));
+        dispatch(createMovie({ ...values, admin: DEFAULT_MOVIE_ADMIN }));
     };
 
     const handleFetchFromOMDB = async (setFieldValue) => {

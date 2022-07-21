@@ -19,6 +19,7 @@ export const DEFAULT_MOVIE_DESCRIPTION =
 export const DEFAULT_MOVIE_IMAGE_URL =
     "https://flxt.tmsimg.com/assets/p22804_p_v8_av.jpg";
 export const DEFAULT_MOVIE_GENRE = MOVIE_GENRES.scifi;
+export const DEFAULT_MOVIE_ADMIN = "nikola.pacek.vetnic@gmail.com";
 
 export const DEFAULT_COMMENT = "Awesome movie!";
 export const DEFAULT_STARTING_COMMENT_DISPLAY_NUM = 2;
