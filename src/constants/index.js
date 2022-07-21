@@ -2,7 +2,7 @@ export const DEFAULT_REGISTRATION_NAME = "John Doe";
 export const DEFAULT_REGISTRATION_EMAIL = "john.doe@example.com";
 export const DEFAULT_REGISTRATION_PASSWORD = "adMIN1234!";
 
-export const DEFAULT_LOGIN_EMAIL = "quinten14@example.net";
+export const DEFAULT_LOGIN_EMAIL = "ngoodwin@example.net";
 export const DEFAULT_LOGIN_PASSWORD = "adMIN1234!";
 
 export const MOVIE_GENRES = {
