@@ -24,12 +24,13 @@ const ENDPOINTS = {
 };
 
 class MovieService extends HttpBaseClient {
-    createMovie = async ({ title, description, image_url, genre }) => {
+    createMovie = async ({ title, description, image_url, genre, admin }) => {
         const { data } = await this.getApiClient().post(ENDPOINTS.CREATE, {
             title,
             description,
             image_url,
             genre,
+            admin,
         });
         return data;
     };
