@@ -36,17 +36,8 @@ class MovieService extends HttpBaseClient {
             ENDPOINTS.CREATE,
             formData
         );
-        console.log(data);
 
-        // const { data } = await this.getApiClient().post(ENDPOINTS.CREATE, {
-        //     title,
-        //     description,
-        //     image_url,
-        //     file,
-        //     genre,
-        // });
-        // console.log(data);
-        // return data;
+        return data;
     };
 
     getMovies = async () => {
