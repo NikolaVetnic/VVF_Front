@@ -5,7 +5,7 @@ import {
     PlaceholderButton,
     Row,
 } from "react-bootstrap";
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 
@@ -21,7 +21,7 @@ import {
     MOVIE_GENRES,
 } from "../../constants";
 import { createMovie } from "../../store/movie/actions";
-import { useRef, useState } from "react";
+import { Component, useRef, useState } from "react";
 import { OMDB_API_BASE_URL, OMDB_API_KEY } from "../../constants/api";
 import movieService from "../../services/api/movie-service";
 
@@ -43,6 +43,52 @@ const schema = yup.object({
     genre: yup.string(),
 });
 
+class Thumb extends Component {
+    state = {
+        loading: false,
+        thumb: undefined,
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (!nextProps.file) {
+            return;
+        }
+
+        this.setState({ loading: true }, () => {
+            let reader = new FileReader();
+
+            reader.onloadend = () => {
+                this.setState({ loading: false, thumb: reader.result });
+            };
+
+            reader.readAsDataURL(nextProps.file);
+        });
+    }
+
+    render() {
+        const { file } = this.props;
+        const { loading, thumb } = this.state;
+
+        if (!file) {
+            return null;
+        }
+
+        if (loading) {
+            return <p>loading...</p>;
+        }
+
+        return (
+            <img
+                src={thumb}
+                alt={file.name}
+                className="img-thumbnail mt-2"
+                height={200}
+                width={200}
+            />
+        );
+    }
+}
+
 export default function CreateMovieForm() {
     const dispatch = useDispatch();
     const formRef = useRef();
@@ -56,7 +102,6 @@ export default function CreateMovieForm() {
             .replace(" ", "+")
             .toLowerCase();
         await movieService.getDataFromOMDB(searchQuery).then((data) => {
-            console.log(data);
             setFieldValue("title", data.Title);
             setFieldValue("description", data.Plot);
             setFieldValue("image_url", data.Poster);
@@ -76,6 +121,7 @@ export default function CreateMovieForm() {
                         title: DEFAULT_MOVIE_TITLE,
                         description: DEFAULT_MOVIE_DESCRIPTION,
                         image_url: DEFAULT_MOVIE_IMAGE_URL,
+                        file: null,
                     }}
                     innerRef={formRef}
                 >
@@ -115,6 +161,31 @@ export default function CreateMovieForm() {
                                         name="image_url"
                                         type="text"
                                     />
+                                </Row>
+
+                                <Row>
+                                    <input
+                                        id="file"
+                                        name="file"
+                                        type="file"
+                                        onChange={(e) => {
+                                            const fileReader = new FileReader();
+                                            fileReader.onload = () => {
+                                                if (
+                                                    fileReader.readyState === 2
+                                                ) {
+                                                    setFieldValue(
+                                                        "file",
+                                                        e.target.files[0]
+                                                    );
+                                                }
+                                            };
+                                            fileReader.readAsDataURL(
+                                                e.target.files[0]
+                                            );
+                                        }}
+                                    />
+                                    {/*<Thumb file={values.file} />*/}
                                 </Row>
 
                                 <Row className="mt-4">
