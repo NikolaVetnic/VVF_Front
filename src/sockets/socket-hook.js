@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-import { createSocketConnection } from "@myapp/services";
-import { useAppContext } from "@myapp/app-context";
+import store from "../store/index";
+import { createSocketConnection } from "./socket-service";
 
 function listen(callBack, channel, event) {
     window.Echo.private(channel).listen(event, (payload) => {
@@ -14,12 +14,20 @@ function listen(callBack, channel, event) {
 }
 
 export const useSocket = (type, callBack) => {
-    const [appState] = useAppContext();
+    const myStore = store.getState();
+    const token = myStore.auth.current.token;
+    const viewed = myStore.movie.viewed;
+
     useEffect(() => {
-        createSocketConnection(appState.authentication.accessToken);
+        createSocketConnection(token);
+        console.log("new_comment");
         switch (type) {
             case "NEW_COMMENT": {
-                return listen(callBack, `comments`, ".new_comment");
+                return listen(
+                    callBack,
+                    `movie.${viewed.id}.comments`,
+                    ".new_comment"
+                );
             }
             default:
                 return;

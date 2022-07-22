@@ -13,8 +13,6 @@ export const ReactionsDisplay = () => {
     const { id: user_id } = useSelector(userDataSelector);
     const { id: movie_id, likes, dislikes } = useSelector(viewedSelector);
 
-    const socket = io.connect("http://127.0.0.1:6379");
-
     useSocket({
         type: "NEW_COMMENT",
         callBack: (payload) => {

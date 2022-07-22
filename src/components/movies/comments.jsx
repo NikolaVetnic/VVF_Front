@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CommentCard } from "./comment-card";
 
 import { commentsSelector, viewedSelector } from "../../store/movie/selectors";
@@ -10,15 +10,27 @@ import {
     DEFAULT_COMMENT_DISPLAY_INC,
     DEFAULT_STARTING_COMMENT_DISPLAY_NUM,
 } from "../../constants";
+import { useSocket } from "../../sockets/socket-hook";
+import { getComments } from "../../store/movie/actions";
 
 export const Comments = () => {
     const comments = useSelector(commentsSelector);
+
+    const dispatch = useDispatch();
 
     const authenticatedUser = useSelector(userDataSelector);
     const viewed = useSelector(viewedSelector);
 
     const startingCount = DEFAULT_STARTING_COMMENT_DISPLAY_NUM;
     const [count, setCount] = useState(startingCount);
+
+    useSocket({
+        type: "NEW_COMMENT",
+        callBack: (payload) => {
+            console.log(payload);
+            dispatch(getComments(viewed.id));
+        },
+    });
 
     const handleLoadMore = () => {
         setCount(count + DEFAULT_COMMENT_DISPLAY_INC);
