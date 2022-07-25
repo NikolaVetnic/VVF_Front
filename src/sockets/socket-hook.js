@@ -1,33 +1,23 @@
 import { useEffect } from "react";
 
-import store from "../store/index";
 import { createSocketConnection } from "./socket-service";
 
 function listen(callBack, channel, event) {
-    window.Echo.private(channel).listen(event, (payload) => {
+    window.Echo.channel(channel).listen(event, (payload) => {
         callBack(payload);
     });
 
     return function cleanUp() {
-        window.Echo.leaveChannel(`private-${channel}`);
+        window.Echo.leaveChannel(channel);
     };
 }
 
-export const useSocket = (type, callBack) => {
-    const myStore = store.getState();
-    const token = myStore.auth.current.token;
-    const viewed = myStore.movie.viewed;
-
+export const useSocket = ({ type, callBack }) => {
     useEffect(() => {
-        createSocketConnection(token);
-        console.log("new_comment");
+        createSocketConnection();
         switch (type) {
             case "NEW_COMMENT": {
-                return listen(
-                    callBack,
-                    `movie.${viewed.id}.comments`,
-                    ".new_comment"
-                );
+                return listen(callBack, "comments", "CommentCreated");
             }
             default:
                 return;

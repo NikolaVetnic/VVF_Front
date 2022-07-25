@@ -27,8 +27,8 @@ export const Comments = () => {
     useSocket({
         type: "NEW_COMMENT",
         callBack: (payload) => {
+            // dispatch(getComments(viewed.id));
             console.log(payload);
-            dispatch(getComments(viewed.id));
         },
     });
 
