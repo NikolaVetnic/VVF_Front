@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { CommentCard } from "./comment-card";
@@ -12,6 +12,7 @@ import {
 } from "../../constants";
 import { useSocket } from "../../sockets/socket-hook";
 import { getComments } from "../../store/movie/actions";
+import { createSocketConnection } from "../../sockets/socket-service";
 
 export const Comments = () => {
     const comments = useSelector(commentsSelector);
@@ -24,17 +25,16 @@ export const Comments = () => {
     const startingCount = DEFAULT_STARTING_COMMENT_DISPLAY_NUM;
     const [count, setCount] = useState(startingCount);
 
-    useSocket({
-        type: "NEW_COMMENT",
-        callBack: (payload) => {
-            // dispatch(getComments(viewed.id));
-            console.log(payload);
-        },
-    });
-
     const handleLoadMore = () => {
         setCount(count + DEFAULT_COMMENT_DISPLAY_INC);
     };
+
+    useSocket({
+        type: "NEW_COMMENT",
+        callback: (payload) => {
+            console.log(payload);
+        },
+    });
 
     return (
         <Container className="justify-content-md-center">
