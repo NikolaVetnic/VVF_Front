@@ -3,7 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { userDataSelector } from "../../store/auth/selectors";
-import { postReaction } from "../../store/movie/actions";
+import { postReaction, viewMovie } from "../../store/movie/actions";
 import { viewedSelector } from "../../store/movie/selectors";
 import { useSocket } from "../../sockets/socket-hook";
 
@@ -14,8 +14,13 @@ export const ReactionsDisplay = () => {
     const { id: movie_id, likes, dislikes } = useSelector(viewedSelector);
 
     useSocket({
-        type: "NEW_COMMENT",
+        type: "NEW_REACTION",
         callBack: (payload) => {
+            dispatch(
+                viewMovie({
+                    id: movie_id,
+                })
+            );
             console.log(payload);
         },
     });

@@ -19,6 +19,9 @@ export const useSocket = ({ type, callBack }) => {
             case "NEW_COMMENT": {
                 return listen(callBack, "comments", "CommentCreated");
             }
+            case "NEW_REACTION": {
+                return listen(callBack, "reactions", "ReactionCreated");
+            }
             default:
                 return;
         }
