@@ -32,8 +32,8 @@ export const Comments = () => {
     useSocket({
         type: "NEW_COMMENT",
         callBack: (payload) => {
+            console.log(payload.data);
             dispatch(getComments(viewed.id));
-            console.log("PROVERA");
         },
     });
 

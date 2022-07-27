@@ -4,6 +4,7 @@ import { loginModalDisplay } from "../modal/actions";
 import { setModal } from "../modal/slice";
 import {
     ADD_TO_FAVORITES,
+    APPEND_COMMENT,
     CREATE_MOVIE,
     FAVORITES_BY_USER,
     GET_BEST_MOVIES,
@@ -19,6 +20,7 @@ import {
     UPDATE_FAVORITE,
 } from "./constants";
 import {
+    addCommentToStore,
     putBestMovies,
     putFavorites,
     putFetchedMovies,
@@ -93,11 +95,6 @@ export function* storeComment() {
     try {
         const { payload } = yield take(POST_COMMENT);
         yield call(movieService.createComment, payload);
-
-        const { movie_id } = payload;
-        const data = yield call(movieService.selectComments, movie_id);
-
-        yield put(selectComments(data));
     } catch (error) {
         console.log("storeMovie() : Error occurred");
     }
@@ -185,11 +182,20 @@ export function* fetchRelatedMovies() {
 export function* fetchElasticSearchResults() {
     try {
         const { payload } = yield take(GET_ELASTIC_SEARCH_RESULTS);
-        console.log(payload);
         const data = yield call(movieService.getElasticSearchResults, payload);
         yield put(putFetchedMovies(data));
     } catch (error) {
         console.log("fetchElasticSearchResults() : Error occurred");
+    }
+}
+
+export function* addComment() {
+    try {
+        const { payload } = yield take(APPEND_COMMENT);
+        console.log(payload);
+        yield put(addCommentToStore(payload));
+    } catch (error) {
+        console.log("addComment() : Error occurred");
     }
 }
 
