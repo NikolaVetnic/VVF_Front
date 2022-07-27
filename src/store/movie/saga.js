@@ -1,4 +1,4 @@
-import { call, put, take } from "redux-saga/effects";
+import { call, put, select, take } from "redux-saga/effects";
 import movieService from "../../services/api/movie-service";
 import { loginModalDisplay } from "../modal/actions";
 import { setModal } from "../modal/slice";
@@ -91,10 +91,24 @@ export function* fetchComments() {
     }
 }
 
+export const getProject = (state) => state.movie.comments;
+
 export function* storeComment() {
     try {
         const { payload } = yield take(POST_COMMENT);
-        yield call(movieService.createComment, payload);
+        const data = yield call(movieService.createComment, payload);
+
+        const comments = yield select(getProject);
+
+        if (!comments.some((c) => c.id === data.id))
+            yield put(selectComments([...comments, data]));
+
+        // yield put(addCommentToStore(payload)); //
+
+        // const { movie_id } = payload;
+        // const data = yield call(movieService.selectComments, movie_id);
+
+        // yield put(selectComments(data));
     } catch (error) {
         console.log("storeMovie() : Error occurred");
     }
@@ -193,7 +207,11 @@ export function* addComment() {
     try {
         const { payload } = yield take(APPEND_COMMENT);
         console.log(payload);
-        yield put(addCommentToStore(payload));
+
+        const comments = yield select(getProject);
+
+        if (!comments.some((c) => c.id === payload.id))
+            yield put(addCommentToStore(payload));
     } catch (error) {
         console.log("addComment() : Error occurred");
     }
