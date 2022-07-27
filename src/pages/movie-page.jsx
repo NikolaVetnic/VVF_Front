@@ -7,6 +7,7 @@ import { FavoriteDisplay } from "../components/movies/favorite-display";
 import MovieSidebar from "../components/movies/movie-sidebar";
 import { ReactionsDisplay } from "../components/movies/reactions-display";
 import { MOVIE_PAGE_COL } from "../constants";
+import { useSocket } from "../sockets/socket-hook";
 import { getComments, getRelatedMovies } from "../store/movie/actions";
 import { relatedSelector, viewedSelector } from "../store/movie/selectors";
 
@@ -26,7 +27,7 @@ export const MoviePage = () => {
     useEffect(() => {
         dispatch(getComments(id));
         dispatch(getRelatedMovies(genre));
-    }, [id, genre]);
+    }, [dispatch, id, genre]);
 
     return (
         <Container fluid className="w-100">

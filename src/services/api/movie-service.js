@@ -63,11 +63,15 @@ class MovieService extends HttpBaseClient {
     };
 
     createComment = async ({ user_id, movie_id, content }) => {
-        this.getApiClient().post(ENDPOINTS.CREATE_COMMENT, {
-            user_id,
-            movie_id,
-            content,
-        });
+        const { data } = await this.getApiClient().post(
+            ENDPOINTS.CREATE_COMMENT,
+            {
+                user_id,
+                movie_id,
+                content,
+            }
+        );
+        return data;
     };
 
     createReaction = async ({ user_id, movie_id, reaction }) => {

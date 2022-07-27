@@ -20,6 +20,7 @@ const movieSlice = createSlice({
         putFavorites: updateStateFunctions.putFavorites,
         putBestMovies: updateStateFunctions.putBestMovies,
         putRelatedMovies: updateStateFunctions.putRelatedMovies,
+        addCommentToStore: updateStateFunctions.addCommentToStore,
     },
 });
 
@@ -32,5 +33,6 @@ export const {
     putFavorites,
     putBestMovies,
     putRelatedMovies,
+    addCommentToStore,
 } = actions;
 export default movieReducer;
