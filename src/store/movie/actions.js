@@ -1,5 +1,6 @@
 import {
     ADD_TO_FAVORITES,
+    APPEND_COMMENT,
     CREATE_MOVIE,
     FAVORITES_BY_USER,
     GET_BEST_MOVIES,
@@ -81,5 +82,10 @@ export const getRelatedMovies = (payload) => ({
 
 export const getElasticSearchResults = (payload) => ({
     type: GET_ELASTIC_SEARCH_RESULTS,
+    payload,
+});
+
+export const appendComment = (payload) => ({
+    type: APPEND_COMMENT,
     payload,
 });

@@ -27,3 +27,8 @@ export const putRelatedMovies = (state, action) => ({
     ...state,
     related: action.payload,
 });
+
+export const addCommentToStore = (state, action) => ({
+    ...state,
+    comments: [...state.comments, action.payload],
+});

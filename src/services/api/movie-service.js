@@ -24,13 +24,19 @@ const ENDPOINTS = {
 };
 
 class MovieService extends HttpBaseClient {
-    createMovie = async ({ title, description, image_url, genre }) => {
-        const { data } = await this.getApiClient().post(ENDPOINTS.CREATE, {
-            title,
-            description,
-            image_url,
-            genre,
-        });
+    createMovie = async ({ title, description, image_url, file, genre }) => {
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("image_url", image_url);
+        formData.append("file", file);
+        formData.append("genre", genre);
+
+        const { data } = await this.getApiClient().post(
+            ENDPOINTS.CREATE,
+            formData
+        );
+
         return data;
     };
 
@@ -57,11 +63,15 @@ class MovieService extends HttpBaseClient {
     };
 
     createComment = async ({ user_id, movie_id, content }) => {
-        this.getApiClient().post(ENDPOINTS.CREATE_COMMENT, {
-            user_id,
-            movie_id,
-            content,
-        });
+        const { data } = await this.getApiClient().post(
+            ENDPOINTS.CREATE_COMMENT,
+            {
+                user_id,
+                movie_id,
+                content,
+            }
+        );
+        return data;
     };
 
     createReaction = async ({ user_id, movie_id, reaction }) => {
