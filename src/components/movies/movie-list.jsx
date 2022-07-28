@@ -38,7 +38,6 @@ export const MovieList = () => {
     }, [authenticatedUser, dispatch, inputValue, inputElasticValue]);
 
     const handleElasticSearch = () => {
-        console.log(inputElasticValue);
         dispatch(getElasticSearchResults(inputElasticValue));
     };
 
