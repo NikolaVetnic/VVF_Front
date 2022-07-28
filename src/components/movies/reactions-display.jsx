@@ -21,7 +21,6 @@ export const ReactionsDisplay = () => {
                     id: movie_id,
                 })
             );
-            console.log(payload);
         },
     });
 
